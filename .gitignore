@@ -1,0 +1,10 @@
+# emacs
+*.*~
+*.*#
+
+# python files
+*.pyc
+
+# log files
+log/
+log_test/

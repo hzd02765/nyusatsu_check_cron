@@ -1,0 +1,19 @@
+id
+serial NOT NULL(PRIMARY KEY)
+ID
+
+process_start
+timestamp without time zone
+ŠJn“ú
+
+process_end
+timestamp without time zone
+I—¹“ú
+
+process_time
+timestamp without time zone
+ˆ—ŠÔ
+
+count_tenders
+int
+ˆÄŒŒ”
