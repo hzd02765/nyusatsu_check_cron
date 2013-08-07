@@ -41,6 +41,7 @@ class PgConnection:
 			# print( "DB Connection failure")
 			# logger.set_log('DB Connection failure')
 			# sys.exit()
+			print("dbname='" + config.DB_NAME + "' user='" + config.DB_USER + "' password='" + config.DB_PASSWORD + "' host='" + config.DB_HOST + "'")
 			return False
 		
 	def get_pg_connection(self):
