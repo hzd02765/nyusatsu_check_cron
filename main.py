@@ -24,7 +24,12 @@ import dao_t_tenders
 class MainParam:
 	keishu_cd = None
 	public_flag = None
-	
+
+# ログファイル用のディレクトリの存在チェック
+exist_log_dir = os.path.isdir(config.LOG_FILE_DIR_PATH)
+if(not exist_log_dir):
+    os.mkdir(config.LOG_FILE_DIR_PATH)
+    os.chmod(config.LOG_FILE_DIR_PATH, 0777)
 
 log_file_path = config.LOG_FILE_DIR_PATH + "access_log_" + datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
 #ログファイルの存在チェック
@@ -77,7 +82,7 @@ param = MainParam()
 param.keishu_cd = u'2'
 param.public_flag = u'0'
 params.append(param)
-	
+
 # 既に終了分 => 一般競争入札
 param = MainParam()
 param.keishu_cd = u'1'
@@ -102,36 +107,36 @@ count_tenders = 0;
 for param in params:
 	# print param.keishu_cd
 	# print param.public_flag
-	
+
 	# HTMLを取得
 	html_page = html_anken_page.HtmlAnkenPage()
 	logger.set_log('class HtmlAnkenPage')
-	
+
 	html_page.set_keishu_cd(param.keishu_cd)
 	html_page.set_public_flag(param.public_flag)
 	html_page.get_html()
 	# HTMLから案件情報ページURLリストを取得
 	html_page.get_page_list()
-	
+
 	# 案件情報ページURLリストから案件情報のリストを取得
 	for page in html_page.page_list:
 		logger.set_log(page)
 		html_list = html_anken_list.HtmlAnkenList(page)
 		# logger.set_log('class HtmlAnkenList')
-		
+
 		html_list.get_anken_list()
 		for url in html_list.anken_url_list:
 			logger.set_log(url)
-			
+
 			count_tenders = count_tenders + 1
-			
+
 			html_disp = html_anken_disp.HtmlAnkenDisp()
 			# logger.set_log('class HtmlAnkenDisp')
-			
+
 			html_disp.set_url(url)
 			# 案件情報を取得
 			html_disp.get_anken()
-			
+
 			# print html_disp.anken.nyusatsu_system
 			# print html_disp.anken.nyusatsu_type
 			# print html_disp.anken.anken_url
@@ -155,9 +160,9 @@ for param in params:
 			# print html_disp.anken.result_close_date
 			# print html_disp.anken.raku_name
 			# print html_disp.anken.price
-			
+
 			# テーブル：t_nyusatsu　の更新
-			
+
 			t_nyusatsu.make_sql_select_max_id()
 			cursor = t_nyusatsu.exec_sql(connection, cursor)
 			record =  cursor.fetchone()
@@ -165,11 +170,11 @@ for param in params:
 			if max_id == None:
 				max_id = 0
 			# print(max_id)
-			
+
 			t_nyusatsu.make_sql_insert()
 			id = max_id + 1
 			sql_params = []
-			sql_params.append(id)	
+			sql_params.append(id)
 			sql_params.append(html_disp.anken.nyusatsu_system)
 			sql_params.append(html_disp.anken.nyusatsu_type)
 			sql_params.append(html_disp.anken.anken_no)
@@ -194,7 +199,7 @@ for param in params:
 			sql_params.append(html_disp.anken.raku_name)
 			sql_params.append(html_disp.anken.price)
 			t_nyusatsu.exec_sql_params(connection, cursor, sql_params)
-			
+
 			# テーブル：t_tenders　の更新
 			t_tenders = dao_t_tenders.DaoTTenders()
 			t_tenders.make_sql_exist()
@@ -211,7 +216,7 @@ for param in params:
 				t_tenders.make_sql_insert()
 				sql_params = []
 				id = max_id + 1
-				sql_params.append(id)	
+				sql_params.append(id)
 				sql_params.append(html_disp.anken.nyusatsu_system)
 				sql_params.append(html_disp.anken.nyusatsu_type)
 				sql_params.append(html_disp.anken.anken_no)
@@ -235,11 +240,11 @@ for param in params:
 				sql_params.append(html_disp.anken.result_close_date)
 				sql_params.append(html_disp.anken.raku_name)
 				sql_params.append(html_disp.anken.price)
-				
+
 				t_tenders.exec_sql_params(connection, cursor, sql_params)
-			else:				
+			else:
 				t_tenders.make_sql_update()
-				
+
 				sql_params = []
 				sql_params.append(html_disp.anken.nyusatsu_system)
 				sql_params.append(html_disp.anken.nyusatsu_type)
@@ -264,9 +269,9 @@ for param in params:
 				sql_params.append(html_disp.anken.raku_name)
 				sql_params.append(html_disp.anken.price)
 				sql_params.append(html_disp.anken.anken_no)
-				
+
 				t_tenders.exec_sql_params(connection, cursor, sql_params)
-			
+
 			# テーブル：j_nyusatsu　の更新
 			j_nyusatsu = dao_j_nyusatsu.DaoJNyusatsu()
 			j_nyusatsu.make_sql_select_max_id()
@@ -276,63 +281,63 @@ for param in params:
 			if max_id == None:
 				max_id = 0
 			# print max_id
-			
+
 			j_nyusatsu.make_sql_insert()
-			
+
 			sql_params = []
 			id = max_id + 1
 
 			# id,
 			sql_params.append(id)
-			# nyusatsu_system, 
+			# nyusatsu_system,
 			sql_params.append(html_disp.anken.nyusatsu_system)
-			# nyusatsu_type, 
+			# nyusatsu_type,
 			sql_params.append(html_disp.anken.nyusatsu_type)
-			# anken_no, 
+			# anken_no,
 			sql_params.append(html_disp.anken.anken_no)
-			# anken_url, 
+			# anken_url,
 			sql_params.append(html_disp.anken.anken_url)
-			# anken_name, 
+			# anken_name,
 			sql_params.append(html_disp.anken.anken_name)
-			# keishu_cd, 
+			# keishu_cd,
 			sql_params.append(html_disp.anken.keishu_cd)
-			# keishu_name, 
+			# keishu_name,
 			sql_params.append(html_disp.anken.keishu_name)
-			# public_flag, 
+			# public_flag,
 			sql_params.append(html_disp.anken.public_flag)
-			# company_area, 
+			# company_area,
 			sql_params.append(html_disp.anken.company_area)
-			# anken_open_date, 
+			# anken_open_date,
 			sql_params.append(html_disp.anken.anken_open_date)
-			# anken_close_date, 
+			# anken_close_date,
 			sql_params.append(html_disp.anken.anken_close_date)
-			# tender_date, 
+			# tender_date,
 			sql_params.append(html_disp.anken.tender_date)
-			# tender_place, 
+			# tender_place,
 			sql_params.append(html_disp.anken.tender_place)
-			# limit_date, 
+			# limit_date,
 			sql_params.append(html_disp.anken.limit_date)
-			# gyoumu_kbn_1, 
+			# gyoumu_kbn_1,
 			sql_params.append(html_disp.anken.gyoumu_kbn_1)
-			# gyoumu_kbn_2, 
+			# gyoumu_kbn_2,
 			sql_params.append(html_disp.anken.gyoumu_kbn_2)
-			# kasitu_name, 
+			# kasitu_name,
 			sql_params.append(html_disp.anken.kasitu_name)
-			# tanto_name, 
+			# tanto_name,
 			sql_params.append(html_disp.anken.tanto_name)
-			# notes, 
+			# notes,
 			sql_params.append(html_disp.anken.notes)
-			# result_open_date, 
+			# result_open_date,
 			sql_params.append(html_disp.anken.result_open_date)
-			# result_close_date, 
+			# result_close_date,
 			sql_params.append(html_disp.anken.result_close_date)
-			# raku_name, 
+			# raku_name,
 			sql_params.append(html_disp.anken.raku_name)
-			# price, 
+			# price,
 			sql_params.append(html_disp.anken.price)
-			
+
 			j_nyusatsu.exec_sql_params(connection, cursor, sql_params)
-			
+
 
 # 処理終了時間
 process_end = datetime.datetime.now()
@@ -349,10 +354,10 @@ sql_params.append(process_seconds)
 sql_params.append(count_tenders)
 j_histories.exec_sql_params(connection, cursor, sql_params)
 
-			
+
 # DBコネクション終了
 pg_con.set_pg_connection_close(cursor)
 logger.set_log(u'DB Connection Close')
-		
+
 logger.set_log(u'end')
 logger.print_log()

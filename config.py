@@ -7,4 +7,4 @@ DB_PASSWORD = "nyusatsu_check"
 
 SITE_URL = u'http://wave.pref.wakayama.lg.jp/ekimu/'
 
-LOG_FILE_DIR_PATH = "/usr/local/app_release/nyusatsu_check_cron/log/"
+LOG_FILE_DIR_PATH = "./log/"
