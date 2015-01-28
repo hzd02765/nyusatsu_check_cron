@@ -2,6 +2,7 @@
 
 # DBホスト名
 DB_HOST = "localhost"
+# DB_HOST = "192.168.11.111"
 # DB名
 DB_NAME = "nyusatsu_check"
 # DBユーザ名
