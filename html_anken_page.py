@@ -22,17 +22,17 @@ example
 # 案件ページに対応したクラス
 class HtmlAnkenPage:
 	def __init__(self):
-        # 1 or 2
+		# 1 or 2
 		self.keishu_cd = None
-        # 0 or 1
+		# 0 or 1
 		self.public_flag = None
-    	# gene or easy
-	    self.keishu_string = ''
-    	# pub or end
-    	self.public_flag_string = ''
-
-    	self.html = None
-    	self.page_list = None
+		# gene or easy
+		self.keishu_string = ''
+		# pub or end
+		self.public_flag_string = ''
+		
+		self.html = None
+		self.page_list = None
 
 	def set_keishu_cd(self, keishu_cd):
 		self.keishu_cd = keishu_cd

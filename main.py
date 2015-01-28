@@ -28,8 +28,8 @@ class MainParam:
 # ログファイル用のディレクトリの存在チェック
 exist_log_dir = os.path.isdir(config.LOG_FILE_DIR_PATH)
 if(not exist_log_dir):
-    os.mkdir(config.LOG_FILE_DIR_PATH)
-    os.chmod(config.LOG_FILE_DIR_PATH, 0777)
+	os.mkdir(config.LOG_FILE_DIR_PATH)
+	os.chmod(config.LOG_FILE_DIR_PATH, 0777)
 
 log_file_path = config.LOG_FILE_DIR_PATH + "access_log_" + datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
 #ログファイルの存在チェック
