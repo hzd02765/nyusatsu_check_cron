@@ -1,62 +1,62 @@
 # -*- coding: utf-8 -*-
 
-# ˆÄŒî•ñƒWƒƒ[ƒiƒ‹ƒNƒ‰ƒX
+# æ¡ˆä»¶æƒ…å ±ã‚¸ãƒ£ãƒ¼ãƒŠãƒ«ã‚¯ãƒ©ã‚¹
 class ClassAnken:
 	# ID
 	id = None
-	# “üDƒVƒXƒeƒ€
+	# å…¥æœ­ã‚·ã‚¹ãƒ†ãƒ 
 	nyusatsu_system = None
-	# “üDƒ^ƒCƒv
+	# å…¥æœ­ã‚¿ã‚¤ãƒ—
 	nyusatsu_type = None
-	# ˆÄŒ”Ô†
+	# æ¡ˆä»¶ç•ªå·
 	anken_no = None
-	# ˆÄŒURL
+	# æ¡ˆä»¶URL
 	anken_url = None
-	# ˆÄŒ–¼Ì
+	# æ¡ˆä»¶åç§°
 	anken_name = None
-	# Œ_–ñí•ÊƒR[ƒh
+	# å¥‘ç´„ç¨®åˆ¥ã‚³ãƒ¼ãƒ‰
 	keishu_cd = None
-	# Œ_–ñí•Ê–¼Ì
+	# å¥‘ç´„ç¨®åˆ¥åç§°
 	keishu_name = None
-	# ˆÄŒŒöŠJ’†EˆÄŒI—¹iŒ‹‰Ê•\¦’†j
+	# æ¡ˆä»¶å…¬é–‹ä¸­ãƒ»æ¡ˆä»¶çµ‚äº†ï¼ˆçµæœè¡¨ç¤ºä¸­ï¼‰
 	public_flag = None
-	# ‘ÎÛ‹ÆÒ‚Ì’nˆæ—vŒ
+	# å¯¾è±¡æ¥­è€…ã®åœ°åŸŸè¦ä»¶
 	company_area = None
-	# ŒöŠJŠJn“ú
+	# å…¬é–‹é–‹å§‹æ—¥æ™‚
 	anken_open_date = None
-	# ŒöŠJI—¹“ú
+	# å…¬é–‹çµ‚äº†æ—¥æ™‚
 	anken_close_date = None
-	# “üD“ú
+	# å…¥æœ­æ—¥æ™‚
 	tender_date = None
-	# “üDêŠ
+	# å…¥æœ­å ´æ‰€
 	tender_place = None
-	# —šsŠúŒÀ
+	# å±¥è¡ŒæœŸé™
 	limit_date = None
-	# ‹Æ–±‘å•ª—Ş
+	# æ¥­å‹™å¤§åˆ†é¡
 	gyoumu_kbn_1 = None
-	# ‹Æ–±¬•ª—Ş
+	# æ¥­å‹™å°åˆ†é¡
 	gyoumu_kbn_2 = None
-	# À{‹@ŠÖ
+	# å®Ÿæ–½æ©Ÿé–¢
 	kasitu_name = None
-	# ’S“–Ò–¼E“d˜b”Ô†
+	# æ‹…å½“è€…åãƒ»é›»è©±ç•ªå·
 	tanto_name = None
-	# “Á‹L–€
+	# ç‰¹è¨˜äº‹é …
 	notes = None
 	
-	# Œ‹‰Ê•\¦ŠJn“ú
+	# çµæœè¡¨ç¤ºé–‹å§‹æ—¥æ™‚
 	result_open_date = None
-	# Œ‹‰Ê•\¦I—¹“ú
+	# çµæœè¡¨ç¤ºçµ‚äº†æ—¥æ™‚
 	result_close_date = None
-	# —D‹ÆÒ–¼“™
+	# è½æœ­æ¥­è€…åç­‰
 	raku_name = None
-	# —D‹àŠziÅE‰~j
+	# è½æœ­é‡‘é¡ï¼ˆç¨è¾¼ãƒ»å††ï¼‰
 	price = None
 	
-	# ƒo[ƒWƒ‡ƒ“
+	# ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 	version_no = None
-	# íœƒtƒ‰ƒO
+	# å‰Šé™¤ãƒ•ãƒ©ã‚°
 	delete_flag = None
-	# ƒf[ƒ^ì¬“ú
+	# ãƒ‡ãƒ¼ã‚¿ä½œæˆæ—¥
 	ins_date = None
-	# ƒf[ƒ^XV“ú
+	# ãƒ‡ãƒ¼ã‚¿æ›´æ–°æ—¥
 	upd_date = None

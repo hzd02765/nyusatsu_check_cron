@@ -30,7 +30,7 @@ class HtmlAnkenPage:
 		self.keishu_string = ''
 		# pub or end
 		self.public_flag_string = ''
-		
+
 		self.html = None
 		self.page_list = None
 
