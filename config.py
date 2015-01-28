@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-# DB$B%[%9%HL>(B
+# DBホスト名
 DB_HOST = "localhost"
-# DB$BL>(B
+# DB名
 DB_NAME = "nyusatsu_check"
-# DB$B%f!<%6L>(B
+# DBユーザ名
 DB_USER = "nyusatsu_check"
-# DB$B%Q%9%o!<%I(B
+# DBパスワード
 DB_PASSWORD = "nyusatsu_check"
 
-# $B>pJs<hF@%5%$%H(BURL
+# 情報取得サイトURL
 SITE_URL = u'http://wave.pref.wakayama.lg.jp/ekimu/'
 
-# $B%m%0%U%!%$%k%G%#%l%/%H%j(B
+# ログファイルディレクトリ
 LOG_FILE_DIR_PATH = "./log/"

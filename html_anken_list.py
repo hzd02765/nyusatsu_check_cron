@@ -33,10 +33,10 @@ example
 # summary : 案件リストページに対応したクラス
 class HtmlAnkenList:
 	def __init__(self, page_url):
-        # URL
+		# URL
 		self.anken_page_url = page_url
-        # 詳細ページのURL
-        self.anken_url_list = None
+		# 詳細ページのURL
+		self.anken_url_list = None
 
 	# summary : 案件ページリストの取得
 	# @return : 案件ページリスト
@@ -74,8 +74,8 @@ class HtmlAnkenList:
 				break
 
 	# HTMLからURLの取得
-    # @param : HTML
-    # @return : URL
+	# @param : HTML
+	# @return : URL
 	def get_anken_url(self, html):
 		anken_url = ''
 		start_sub = '<a href="'

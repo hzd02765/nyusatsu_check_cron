@@ -6,11 +6,11 @@ import config
 
 class Logger:
 
-    def __init__(self, file_path):
+	def __init__(self, file_path):
 		self.file_path = file_path
 		self.log = ""
 
-    def set_log(self, log):
+	def set_log(self, log):
 		log = log.replace('\n', '');
 	
 		log_line = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S ")
@@ -18,7 +18,7 @@ class Logger:
 		log_line = log_line + "\n"
 		self.log = self.log + log_line
 
-    def print_log(self):
+	def print_log(self):
 		file = open(self.file_path, "a")
 		file.write(self.log)
 		file.close

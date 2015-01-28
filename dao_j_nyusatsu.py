@@ -2,15 +2,15 @@
 
 # テーブル「j_nyusatsu」クラス
 class DaoJNyusatsu:
-    # 初期化
+	# 初期化
 	def __init__(self):
 		self.sql = ""
 
-    # SQL作成(IDの最大値を取得)
+	# SQL作成(IDの最大値を取得)
 	def make_sql_select_max_id(self):
 		self.sql = u"select max(id) from j_nyusatsu"
 
-    # SQLの作成(追加)
+	# SQLの作成(追加)
 	def make_sql_insert(self):
 		self.sql = u'''
 insert into j_nyusatsu(
@@ -49,23 +49,23 @@ values(
 
 '''
 
-    # SQLを取得
+	# SQLを取得
 	def get_sql(self):
 		return self.sql
 
-    # SQLの実行
-    # @param: connection
-    # @param: cursol
-    # @retuen: cursol
+	# SQLの実行
+	# @param: connection
+	# @param: cursol
+	# @retuen: cursol
 	def exec_sql(self, conn, cur):
 		cur.execute(self.sql)
 		conn.commit()
 		return cur
 
-    # SQLの実行
-    # @param: connection
-    # @param: cursol
-    # @param: params
+	# SQLの実行
+	# @param: connection
+	# @param: cursol
+	# @param: params
 	def exec_sql_params(self, conn, cur, params):
 		cur.execute(self.sql, params)
 		conn.commit()

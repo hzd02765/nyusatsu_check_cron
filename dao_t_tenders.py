@@ -10,11 +10,11 @@ class DaoTTenders:
 	def make_sql_exist(self):
 		self.sql = "select id from t_tenders where anken_no = %s"
 
-    # SQL作成(IDの最大値を取得)
+	# SQL作成(IDの最大値を取得)
 	def make_sql_select_max_id(self):
 		self.sql = u"select max(id) from t_tenders"
 
-    # SQL作成(レコード新規作成)
+	# SQL作成(レコード新規作成)
 	def make_sql_insert(self):
 		self.sql = u'''
 insert into t_tenders(
@@ -88,22 +88,22 @@ where
 
 '''
 
-    # SQLの取得
+	# SQLの取得
 	def get_sql(self):
 		return self.sql
 
-    # SQLの実行
-    # @param: connection
-    # @param: cursol
+	# SQLの実行
+	# @param: connection
+	# @param: cursol
 	def exec_sql(self, conn, cur):
 		cur.execute(self.sql)
 		conn.commit()
 		return cur
 
-    # SQLの実行
-    # @param: connection
-    # @param: cursol
-    # @param: params
+	# SQLの実行
+	# @param: connection
+	# @param: cursol
+	# @param: params
 	def exec_sql_params(self, conn, cur, params):
 		cur.execute(self.sql, params)
 		conn.commit()

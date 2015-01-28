@@ -4,15 +4,15 @@ import util
 
 # テーブル「j_histories」クラス
 class DaoJHistories:
-    # 初期化
+	# 初期化
 	def __init__(self):
 		self.sql = ""
 
-    # SQLを作成(IDの最大値を取得)
+	# SQLを作成(IDの最大値を取得)
 	def make_sql_select_max_id(self):
 		self.sql = "select COALESCE(max(id), 0) from j_histories"
 
-    # SQLを作成(追加)
+	# SQLを作成(追加)
 	def make_sql_insert(self):
 		self.sql = u'''
 insert into j_histories(
@@ -31,14 +31,14 @@ values(
 )
 '''
 
-    # SQLを取得
+	# SQLを取得
 	def get_sql(self):
 		return  util.clean_string(self.sql)
 
-    # SQLを実行
-    # param: connection
-    # param: cursol
-    # param: params(配列)
+	# SQLを実行
+	# param: connection
+	# param: cursol
+	# param: params(配列)
 	def exec_sql_params(self, conn, cur, params):
 		cur.execute(self.sql, params)
 		conn.commit()
