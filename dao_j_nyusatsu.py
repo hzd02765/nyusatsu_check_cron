@@ -1,42 +1,46 @@
 # -*- coding: utf-8 -*-
 
+# テーブル「j_nyusatsu」クラス
 class DaoJNyusatsu:
+    # 初期化
 	def __init__(self):
 		self.sql = ""
-		
+
+    # SQL作成(IDの最大値を取得)
 	def make_sql_select_max_id(self):
 		self.sql = u"select max(id) from j_nyusatsu"
-	
+
+    # SQLの作成(追加)
 	def make_sql_insert(self):
 		self.sql = u'''
 insert into j_nyusatsu(
 	id,
-	nyusatsu_system, 
-	nyusatsu_type, 
-	anken_no, 
-	anken_url, 
-	anken_name, 
-	keishu_cd, 
-	keishu_name, 
-	public_flag, 
-	company_area, 
-	anken_open_date, 
-	anken_close_date, 
-	tender_date, 
-	tender_place, 
-	limit_date, 
-	gyoumu_kbn_1, 
-	gyoumu_kbn_2, 
-	kasitu_name, 
-	tanto_name, 
-	notes, 
-	result_open_date, 
-	result_close_date, 
-	raku_name, 
-	price, 
-	version_no, 
-	delete_flag, 
-	ins_date, 
+	nyusatsu_system,
+	nyusatsu_type,
+	anken_no,
+	anken_url,
+	anken_name,
+	keishu_cd,
+	keishu_name,
+	public_flag,
+	company_area,
+	anken_open_date,
+	anken_close_date,
+	tender_date,
+	tender_place,
+	limit_date,
+	gyoumu_kbn_1,
+	gyoumu_kbn_2,
+	kasitu_name,
+	tanto_name,
+	notes,
+	result_open_date,
+	result_close_date,
+	raku_name,
+	price,
+	version_no,
+	delete_flag,
+	ins_date,
 	upd_date
 )
 values(
@@ -44,14 +48,24 @@ values(
 )
 
 '''
+
+    # SQLを取得
 	def get_sql(self):
 		return self.sql
-	
+
+    # SQLの実行
+    # @param: connection
+    # @param: cursol
+    # @retuen: cursol
 	def exec_sql(self, conn, cur):
 		cur.execute(self.sql)
 		conn.commit()
 		return cur
 
+    # SQLの実行
+    # @param: connection
+    # @param: cursol
+    # @param: params
 	def exec_sql_params(self, conn, cur, params):
 		cur.execute(self.sql, params)
 		conn.commit()
@@ -64,35 +78,35 @@ if __name__ == '__main__':
 	import logger
 	file_name = "access_log_" + datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
 	logger = logger.Logger(file_name)
-	
+
 	# pg_connectin 作成
 	import dao_pg_connection
 	pg_connection = dao_pg_connection.PgConnection()
 	pg_connection.set_pg_connection_open(logger)
 	connection = pg_connection.get_pg_connection()
 	cursor = connection.cursor()
-	
+
 	# インスタンス生成
 	dao_j_nyusatsu = DaoJNyusatsu()
-	
+
 	# Max_id取得用SQL 生成
 	dao_j_nyusatsu.make_sql_select_max_id()
-	
+
 	# sqlをlogに書き出す
 	logger.set_log(dao_j_nyusatsu.get_sql())
-	
+
 	# sql実行
 	cursor = dao_j_nyusatsu.exec_sql(connection, cursor)
 	record =  cursor.fetchone()
 	max_id = record[0]
 	# print(record[0])
-	
+
 	# insert用SQL 生成
 	dao_j_nyusatsu.make_sql_insert()
-	
+
 	# sqlをlogに書き出す
 	logger.set_log(dao_j_nyusatsu.get_sql())
-	
+
 	# パラメータ作成
 	import dao_anken
 	anken = dao_anken.ClassAnken()
@@ -120,9 +134,9 @@ if __name__ == '__main__':
 	anken.result_close_date = "2013-04-19 12:00:00"
 	anken.raku_name = "有限会社　大都環境サービス"
 	anken.price = "96,600"
-	
+
 	sql_params = []
-	sql_params.append(anken.id)	
+	sql_params.append(anken.id)
 	sql_params.append(anken.nyusatsu_system)
 	sql_params.append(anken.nyusatsu_type)
 	sql_params.append(anken.anken_no)
@@ -146,16 +160,18 @@ if __name__ == '__main__':
 	sql_params.append(anken.result_close_date)
 	sql_params.append(anken.raku_name)
 	sql_params.append(anken.price)
-	
+
 	# sql実行(引数にパラメータを指定)
 	dao_j_nyusatsu.exec_sql_params(connection, cursor, sql_params)
-	
+
 	# pg_connectin クローズ
 	pg_connection.set_pg_connection_close(cursor, logger)
-	
+
 	# ログ出力
 	logger.print_log()
 
+# ここから下は使っているのだろうか？
+# 使っていないのであれば、削除するべき
 
 # 案件情報ジャーナルクラス
 class ClassJNyusatsu:
@@ -187,15 +203,15 @@ class ClassJNyusatsu:
 	delete_flag = None
 	ins_date = None
 	upd_date = None
-	
+
 # 案件情報ジャーナルのMaxIDを取得
 # @param  : なし
 # @return : 案件情報ジャーナルのMaxID
-def get_max_id(cur):	
+def get_max_id(cur):
 	sql = u"select max(id) from j_nyusatsu"
 	cur.execute(sql)
 	record =  cur.fetchone()
-		
+
 	if(record[0] is None):
 		max_id = 0
 	else:
@@ -210,68 +226,68 @@ def add_nyusatsu(conn, cur, anken):
 	sql = u'''
 insert into j_nyusatsu(
 	id,
-	nyusatsu_system, 
-	nyusatsu_type, 
-	anken_no, 
-	anken_url, 
-	anken_name, 
-	keishu_cd, 
-	keishu_name, 
-	public_flag, 
-	company_area, 
-	anken_open_date, 
-	anken_close_date, 
-	tender_date, 
-	tender_place, 
-	limit_date, 
-	gyoumu_kbn_1, 
-	gyoumu_kbn_2, 
-	kasitu_name, 
-	tanto_name, 
-	notes, 
-	result_open_date, 
-	result_close_date, 
-	raku_name, 
-	price, 
-	version_no, 
-	delete_flag, 
-	ins_date, 
+	nyusatsu_system,
+	nyusatsu_type,
+	anken_no,
+	anken_url,
+	anken_name,
+	keishu_cd,
+	keishu_name,
+	public_flag,
+	company_area,
+	anken_open_date,
+	anken_close_date,
+	tender_date,
+	tender_place,
+	limit_date,
+	gyoumu_kbn_1,
+	gyoumu_kbn_2,
+	kasitu_name,
+	tanto_name,
+	notes,
+	result_open_date,
+	result_close_date,
+	raku_name,
+	price,
+	version_no,
+	delete_flag,
+	ins_date,
 	upd_date
 )
 values(
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	%s, 
-	0, 
-	0, 
-	now(), 
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	%s,
+	0,
+	0,
+	now(),
 	now()
 )
 
 '''
 	sql_arg = []
-	sql_arg.append(anken.id)	
+	sql_arg.append(anken.id)
 	sql_arg.append(anken.nyusatsu_system)
 	sql_arg.append(anken.nyusatsu_type)
 	sql_arg.append(anken.anken_no)
@@ -298,4 +314,4 @@ values(
 
 	cur.execute(sql, sql_arg)
 	conn.commit()
-	
+

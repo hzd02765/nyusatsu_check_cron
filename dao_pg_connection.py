@@ -1,69 +1,52 @@
 # -*- coding: utf-8 -*-
 
 import sys
-# import util
 import psycopg2
 import datetime
 
 import config
 import logger
 
-# def get_connection():
-	# conn = None
-	# try:
-		# conn = psycopg2.connect("dbname='nyusatsu_check' user='nyusatsu_check' password='nyusatsu_check' host='localhost'")
-		# util.print_log('DB Connection Success')
-	# except:
-		# util.print_log( "DB Connection failure")
-		# sys.exit()
-	# return conn
-	
-# def set_close_connection(conn, cur):
-	# cur.close()
-	# conn.close()
-	# util.print_log('DB Connection Close')
-
-
-	
+# connectionクラス
 class PgConnection:
-	
+
+    # 初期化
 	def __init__(self):
 		self.conn = None
-	
+
 	# PostgreSQL接続開始
 	def set_pg_connection_open(self):
+        db_name = config.DB_NAME
+        db_user = config.DB_USER
+        db_pass = config.DB_PASSWORD
+        db_host = config.DB_HOST
+
 		try:
-			self.conn = psycopg2.connect("dbname='" + config.DB_NAME + "' user='" + config.DB_USER + "' password='" + config.DB_PASSWORD + "' host='" + config.DB_HOST + "'")
-			# print('DB Connection Success')
-			# logger.set_log('DB Connection Success')
+			self.conn = psycopg2.connect("dbname='" + db_name + "' user='" + db_user + "' password='" + db_pass + "' host='" + db_host + "'")
 			return True
 		except:
-			# print( "DB Connection failure")
-			# logger.set_log('DB Connection failure')
-			# sys.exit()
-			print("dbname='" + config.DB_NAME + "' user='" + config.DB_USER + "' password='" + config.DB_PASSWORD + "' host='" + config.DB_HOST + "'")
+			print("dbname='" + db_name + "' user='" + db_user + "' password='" + db_pass + "' host='" + db_host + "'")
 			return False
-		
+
+    # connectionの取得
 	def get_pg_connection(self):
 		return self.conn
-	
+
 	# PostgreSQL接続終了
 	def set_pg_connection_close(self, cur):
 		cur.close()
 		self.conn.close()
-		# print('DB Connection Close')
-		# logger.set_log('DB Connection Close')
-		
+
 # テスト用
 if __name__ == '__main__':
 	file_name = "access_log_" + datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
 	logger = logger.Logger(file_name)
 	# print(logger.file_path)
-	
+
 	pg_connection = PgConnection()
 	pg_connection.set_pg_connection_open(logger)
 	connectin = pg_connection.get_pg_connection()
 	cursor = connectin.cursor()
 	pg_connection.set_pg_connection_close(cursor, logger)
-	
+
 	logger.print_log()

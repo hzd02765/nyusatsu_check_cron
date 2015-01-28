@@ -7,44 +7,49 @@ import config
 import util
 import dao_anken
 
+# 案件情報詳細ページに対応したクラス
 class HtmlAnkenDisp:
-	# 文字列
-	# '1' or '2'
-	keishu_cd = None
-	# 文字列
-	# '0' or '1'
-	public_flag = None
 
-	url = None
-	html = None
-	
-	anken = None
-	
 	def __init__(self):
-		self.anken = dao_anken.ClassAnken()
-		
+    	# 契約種別コード
+    	# '1' or '2'
+        self.keishu_cd = None
+    	# 公開フラグ
+    	# '0' or '1'
+    	self.public_flag = None
+        # 対象URL
+    	self.url = None
+        # 対象HTML
+	    self.html = None
+        # 案件情報
+        self.anken = dao_anken.ClassAnken()
+
+    # インスタンスに各種パラメータをセット
+    # @param : 対象ページのURL
+    # TODO => 名前 set_param とか set_info のほうがいいような
 	def set_url(self, url):
 		self.url = url
-		
+
 		replaced = self.url.replace(config.SITE_URL, '')
 		splits = replaced.split('.')
 		splits = splits[0].split('_')
-	
+
 		keishu_key = splits[1]
 		public_flag_key = splits[2]
-		
-		
+
+
 		if(u'gene' == keishu_key):
 			self.keishu_cd = u'1'
 		elif(u'easy' == keishu_key):
 			self.keishu_cd = u'2'
-	
+
 		if(u'pub' == public_flag_key):
 			self.public_flag = u'0'
 		elif(u'end' == public_flag_key):
 			self.public_flag = u'1'
-	
+
 	# 案件情報の取得
+    # TODO => 名前 get_anken よりも set_anken のほうがいいんじゃないかな
 	def get_anken(self):
 		fp = urllib2.urlopen(self.url)
 		html = fp.read()
@@ -82,11 +87,13 @@ class HtmlAnkenDisp:
 
 
 	# 和暦日付を西暦日付に変換
+    # @param: 日付(文字列 : 平成XX年XX月XX日XX時XX分)
+    # @retuen: 西暦日付
 	def format_date(self, date_string):
 		if(date_string is None):
 			return date_string
-		if(date_string is None):
-			return date_string
+		# if(date_string is None):
+			# return date_string
 		date_string_f = ''
 
 		year_j = util.get_block(date_string, u'', u'年')
@@ -95,14 +102,16 @@ class HtmlAnkenDisp:
 		hour = util.get_block(date_string , u'日', u'時')
 		minute = util.get_block(date_string , u'時', u'分')
 
+        year_ad = util.convert_J2AD(year_j)
+
 		if(hour is None):
-			date_string_f = '/'.join([util.convert_J2AD(year_j), month, day])
+			date_string_f = '/'.join([year_ad, month, day])
 		else:
-			date_string_f = '/'.join([util.convert_J2AD(year_j), month, day]) + ' ' + ':'.join([hour, minute])
+			date_string_f = '/'.join([year_ad, month, day]) + ' ' + ':'.join([hour, minute])
 
 		return date_string_f
 
-	# 案件番号
+    # @return : 案件番号
 	def get_anken_no(self):
 		start = u'<tr> <td width="200">案件番号</td> <td>'
 		stop = u'</td> </tr>'
@@ -110,14 +119,14 @@ class HtmlAnkenDisp:
 		return anken_no
 
 
-	# 案件名(事業年度・名称)
+    # @return : 案件名(事業年度・名称)
 	def get_anken_name(self):
 		start = u'<tr> <td>案件名(事業年度・名称)</td> <td>'
 		stop = u'</td> </tr>'
 		anken_name = util.get_block(self.html, start, stop)
 		return anken_name
 
-	# 契約種別
+    # @return : 契約種別
 	def get_keishu_name(self):
 		start = u'<tr> <td>契約種別</td> <td>'
 		stop = u'</td> </tr>'
@@ -125,25 +134,25 @@ class HtmlAnkenDisp:
 		keishu_name = re.sub('<!--.*-->\s*', '', keishu_name)
 		return keishu_name
 
-	# 対象業者の地域要件
+    # @return : 対象業者の地域要件
 	def get_company_area(self):
 		start = u'<tr> <td>対象業者の地域要件</td> <td>'
 		stop = u'</td> </tr>'
 		company_area = util.get_block(self.html, start, stop)
 		return company_area
 
-	# 公開開始日時
+    # @return : 公開開始日時
 	def get_anken_open_date(self):
 		if(1 == int(self.keishu_cd)):
 			start = u'<td>公開開始日時<br></td> <td>'
 		elif(2 == int(self.keishu_cd)):
 			start = u'<tr> <td>公開開始日時<br>（＝見積書受付開始）<br></td> <td>'
-		stop = u'</td> </tr>'	
+		stop = u'</td> </tr>'
 		anken_open_date = util.get_block(self.html, start, stop)
 		anken_open_date = self.format_date(anken_open_date)
 		return anken_open_date
 
-	# 公開終了日時
+    # @return : 公開終了日時
 	def get_anken_close_date(self):
 		start = u'<tr> <td>公開終了日時</td> <td>'
 		stop = u'</td> </tr>'
@@ -151,7 +160,7 @@ class HtmlAnkenDisp:
 		anken_close_date = self.format_date(anken_close_date)
 		return anken_close_date
 
-	# 入札日時
+    # @return : 入札日時
 	def get_tender_date(self):
 		if(1 == int(self.keishu_cd)):
 			start = u'<tr> <td>入札日時<br></td> <td>'
@@ -163,7 +172,7 @@ class HtmlAnkenDisp:
 		tender_date = self.format_date(tender_date)
 		return tender_date
 
-	# 入札場所
+    # @return : 入札場所
 	def get_tender_place(self):
 		if(1 == int(self.keishu_cd)):
 			start = u'<td>入札場所<br></td> <td>'
@@ -173,7 +182,7 @@ class HtmlAnkenDisp:
 		tender_place = util.get_block(self.html, start, stop)
 		return tender_place
 
-	# 履行期限
+    # @return : 履行期限
 	def get_limit_date(self):
 		start = u'<tr> <td>履行期限</td> <td>'
 		stop = u'</td> </tr>'
@@ -181,42 +190,42 @@ class HtmlAnkenDisp:
 		limit_date = self.format_date(limit_date)
 		return limit_date
 
-	# 業務大分類
+    # @return : 業務大分類
 	def get_gyoumu_kbn_1(self):
 		start = u'<tr> <td>業務大分類</td> <td>'
 		stop = u'</td> </tr>'
 		gyoumu_kbn_1 = util.get_block(self.html, start, stop)
 		return gyoumu_kbn_1
 
-	# 業務小分類
+    # @return : 業務小分類
 	def get_gyoumu_kbn_2(self):
 		start = u'<tr> <td>業務小分類</td> <td>'
 		stop = u'</td> </tr>'
 		gyoumu_kbn_2 = util.get_block(self.html, start, stop)
 		return gyoumu_kbn_2
 
-	# 実施機関
+    # @return : 実施機関
 	def get_kasitu_name(self):
 		start = u'<tr> <td>実施機関</td> <td>'
 		stop = u'</td> </tr>'
 		kasitu_name = util.get_block(self.html, start, stop)
 		return kasitu_name
 
-	# 担当者名・電話番号
+    # @return : 担当者名・電話番号
 	def get_tanto_name(self):
 		start = u'<tr> <td>担当者名・電話番号</td><td>'
 		stop = '</td> </tr>'
 		tanto_name = util.get_block(self.html, start, stop)
 		return tanto_name
 
-	# 特記事項
+    # @return : 特記事項
 	def get_notes(self):
 		start = u'<tr> <td>特記事項</td><td>'
 		stop = u'</td> </tr>'
 		notes = util.get_block(self.html, start, stop)
 		return notes
 
-	# 結果表示開始日時
+    # @return : 結果表示開始日時
 	def get_result_open_date(self):
 		start = u'<tr> <td width="200">結果表示開始日時</td> <td>'
 		stop = u'</option> </td> </tr>'
@@ -224,7 +233,7 @@ class HtmlAnkenDisp:
 		result_open_date = self.format_date(result_open_date)
 		return result_open_date
 
-	# 結果表示終了日時
+    # @return : 結果表示終了日時
 	def get_result_close_date(self):
 		start = u'<tr> <td>結果表示終了日時</td> <td>'
 		stop = u'</td> </tr>'
@@ -232,31 +241,32 @@ class HtmlAnkenDisp:
 		result_close_date = self.format_date(result_close_date)
 		return result_close_date
 
-	# 落札業者名等
+    # @return : 落札業者名等
 	def get_raku_name(self):
 		start = u'<tr> <td>落札業者名等</td><td>'
 		stop = u'</td> </tr>'
 		raku_name = util.get_block(self.html, start, stop)
 		return raku_name
-		
-	# 落札金額（税込・円）
+
+    # @return : 落札金額（税込・円）
 	def get_price(self):
 		start = u'<tr> <td>落札金額（税込・円）</td><td>'
 		stop = u'</td> </tr>'
 		price = util.get_block(self.html, start, stop)
-		
+
 		if(None != price):
 			price = re.sub('&nbsp;', '', price)
-		
+
 		return price
 
-		
+
+# 以下テスト用
 if __name__ == '__main__':
 	print(0)
 	html_anken_disp = HtmlAnkenDisp()
 	html_anken_disp.set_url(u'http://wave.pref.wakayama.lg.jp/ekimu2/disp_gene_pub.php?AnkNo=011400-H2504121059-11')
 	html_anken_disp.get_anken()
-	
+
 	print(html_anken_disp.anken.nyusatsu_system)
 	print(html_anken_disp.anken.nyusatsu_type)
 	print(html_anken_disp.anken.anken_url)
