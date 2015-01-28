@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
 
+# テーブル「t_nyusatsu」クラス
 class DaoTNyusatsu:
+    # 初期化
 	def __init__(self):
 		self.sql = ""
-		
+
+    # SQL作成(削除)
 	def make_sql_delete(self):
 		self.sql = u"delete from t_nyusatsu"
-		
+
+    # SQL作成(IDの最大値を取得)
 	def make_sql_select_max_id(self):
 		self.sql = u"select max(id) from t_nyusatsu"
-	
+
+    # SQLの作成(追加)
 	def make_sql_insert(self):
 		self.sql = u'''
 insert into t_nyusatsu(
@@ -47,15 +52,24 @@ values(
 )
 
 '''
-	
+
+    # SQLの取得
 	def get_sql(self):
 		return self.sql
-	
+
+    # SQLの実行
+    # @param: connection
+    # @param: cursol
+    # @return: cursol
 	def exec_sql(self, conn, cur):
 		cur.execute(self.sql)
 		conn.commit()
 		return cur
 
+    # SQLの実行
+    # @param: connection
+    # @param: cursol
+    # @param: params
 	def exec_sql_params(self, conn, cur, params):
 		cur.execute(self.sql, params)
 		conn.commit()
@@ -68,32 +82,32 @@ if __name__ == '__main__':
 	import logger
 	file_name = "access_log_" + datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
 	logger = logger.Logger(file_name)
-	
+
 	# pg_connectin 作成
 	import dao_pg_connection
 	pg_connection = dao_pg_connection.PgConnection()
 	pg_connection.set_pg_connection_open(logger)
 	connection = pg_connection.get_pg_connection()
 	cursor = connection.cursor()
-	
+
 	# インスタンス生成
 	dao_t_nyusatsu = DaoTNyusatsu()
-	
+
 	# テーブルの初期化SQL　生成
 	dao_t_nyusatsu.make_sql_delete()
-	
+
 	# sqlをlogに書き出す
 	logger.set_log(dao_t_nyusatsu.get_sql())
-	
+
 	# sql実行
 	cursor = dao_t_nyusatsu.exec_sql(connection, cursor)
-	
+
 	# Max_id取得用SQL 生成
 	dao_t_nyusatsu.make_sql_select_max_id()
-	
+
 	# sqlをlogに書き出す
 	logger.set_log(dao_t_nyusatsu.get_sql())
-	
+
 	# sql実行
 	cursor = dao_t_nyusatsu.exec_sql(connection, cursor)
 	record =  cursor.fetchone()
@@ -104,14 +118,14 @@ if __name__ == '__main__':
 
 	# insert用SQL 生成
 	dao_t_nyusatsu.make_sql_insert()
-	
+
 	# sqlをlogに書き出す
 	logger.set_log(dao_t_nyusatsu.get_sql())
-	
+
 	# パラメータ作成
 	import dao_anken
 	anken = dao_anken.ClassAnken()
-	
+
 	anken.id = max_id + 1
 	anken.nyusatsu_system = "1"
 	anken.nyusatsu_type = "1"
@@ -136,9 +150,9 @@ if __name__ == '__main__':
 	anken.result_close_date = "2013-04-19 12:00:00"
 	anken.raku_name = "有限会社　大都環境サービス"
 	anken.price = "96,600"
-	
+
 	sql_params = []
-	sql_params.append(anken.id)	
+	sql_params.append(anken.id)
 	sql_params.append(anken.nyusatsu_system)
 	sql_params.append(anken.nyusatsu_type)
 	sql_params.append(anken.anken_no)
@@ -162,16 +176,19 @@ if __name__ == '__main__':
 	sql_params.append(anken.result_close_date)
 	sql_params.append(anken.raku_name)
 	sql_params.append(anken.price)
-	
+
 	# sql実行(引数にパラメータを指定)
 	dao_t_nyusatsu.exec_sql_params(connection, cursor, sql_params)
-	
+
 	# pg_connectin クローズ
 	pg_connection.set_pg_connection_close(cursor, logger)
-	
+
 	# ログ出力
 	logger.print_log()
-		
+
+# ここから下は使っているのだろうか？
+# 使っていないなら、削除
+
 # import util
 
 # 案件情報トランザクションの削除

@@ -4,10 +4,10 @@ import config
 
 '''
 summary
-	ˆÄŒƒy[ƒW‚©‚çÚ×ƒy[ƒW‚ÌURLƒŠƒXƒg‚ğæ“¾‚·‚é
+	æ¡ˆä»¶ãƒšãƒ¼ã‚¸ã‹ã‚‰è©³ç´°ãƒšãƒ¼ã‚¸ã®URLãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
 example
 	http://wave.pref.wakayama.lg.jp/ekimu2/anken_gene_end.php?NextPage=1
-	¨
+	â†’
 	disp_gene_end.php?AnkNo=000601-H2502171506-11
 	disp_gene_end.php?AnkNo=000601-H2502181851-11
 	disp_gene_end.php?AnkNo=010500-H2502271453-11
@@ -29,32 +29,27 @@ example
 	disp_gene_end.php?AnkNo=032100-H2503041348-11
 	disp_gene_end.php?AnkNo=032100-H2503041527-11
 '''
+
+# summary : æ¡ˆä»¶ãƒªã‚¹ãƒˆãƒšãƒ¼ã‚¸ã«å¯¾å¿œã—ãŸã‚¯ãƒ©ã‚¹
 class HtmlAnkenList:
-	anken_page_url = None
-	anken_url_list = None
-	
 	def __init__(self, page_url):
+        # URL
 		self.anken_page_url = page_url
-	
-	# summary : ˆÄŒƒy[ƒWƒŠƒXƒg‚Ìæ“¾
-	# @param  : HTML
-	# @param  : Œo‰cí•ÊƒR[ƒh
-	# @param  : ŒöŠJƒtƒ‰ƒO
-	# @return : ˆÄŒƒy[ƒWƒŠƒXƒg
+        # è©³ç´°ãƒšãƒ¼ã‚¸ã®URL
+        self.anken_url_list = None
+
+	# summary : æ¡ˆä»¶ãƒšãƒ¼ã‚¸ãƒªã‚¹ãƒˆã®å–å¾—
+	# @return : æ¡ˆä»¶ãƒšãƒ¼ã‚¸ãƒªã‚¹ãƒˆ
 	def get_anken_list(self):
 		replaced = self.anken_page_url.replace(config.SITE_URL, '')
 		splits = replaced.split('.')
 		splits = splits[0].split('_')
-	
+
 		keishu_string = splits[1]
 		public_flag_string = splits[2]
-		
-		# print('function : get_anken_list')
 
 		self.anken_url_list = []
 
-		# print(self.anken_page_url)
-		
 		import urllib2
 		fp = urllib2.urlopen(self.anken_page_url)
 		html = fp.read()
@@ -78,27 +73,26 @@ class HtmlAnkenList:
 			else:
 				break
 
-		
-		# print('ANKEN_LIST : ' + str(len(self.anken_url_list)))
-		
-	# ˆÄŒÚ×ƒy[ƒW‚ÌURL‚Ìæ“¾
-	def get_anken_url(self, anken_string):
+	# HTMLã‹ã‚‰URLã®å–å¾—
+    # @param : HTML
+    # @return : URL
+	def get_anken_url(self, html):
 		anken_url = ''
 		start_sub = '<a href="'
-		start_index = anken_string.find(start_sub)
+		start_index = html.find(start_sub)
 		if 0 < start_index:
 			end_sub = '">'
-			end_index = anken_string.find(end_sub, start_index)
+			end_index = html.find(end_sub, start_index)
 			if 0 < end_index:
-				anken_url = anken_string[start_index + len(start_sub) : end_index]
+				anken_url = html[start_index + len(start_sub) : end_index]
 				anken_url = config.SITE_URL + anken_url
-				
+
 		return anken_url
 
-		
+# ä»¥ä¸‹ãƒ†ã‚¹ãƒˆç”¨
 if __name__ == '__main__':
 	html_anken_list = HtmlAnkenList(u'http://wave.pref.wakayama.lg.jp/ekimu2/anken_gene_end.php?NextPage=1')
 	html_anken_list.get_anken_list()
 	for url in html_anken_list.anken_url_list:
 		print(url)
-	
+

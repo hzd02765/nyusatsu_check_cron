@@ -7,7 +7,7 @@ def convert_J2AD(str_year_j):
 		year_j = str_year_j.replace(u'平成','')
 		year = int(year_j) + 1988
 	return str(year)
-	
+
 # 改行、タブ、スペースを削除し、1行の文字列を返す
 def clean_string(string):
 	string_f = string
@@ -31,7 +31,7 @@ def clean_string(string):
 		string_f = string_f.replace('  ',' ')
 
 	return	string_f
-	
+
 # ブロック要素の取得
 def get_block(source, start, stop):
 	value_string = ''
@@ -50,18 +50,19 @@ def get_block(source, start, stop):
 		return None
 
 	return value_string.strip()
-	
+
+# 以下テスト用
 if __name__ == '__main__':
 	jp_year = u"平成 25"
 	ad_year = convert_J2AD(jp_year)
 	print(ad_year)
-	
+
 	string = u'''
 あいうえお
 かきくけこ
-	
-	
-	
+
+
+
 	'''
 	string_f = clean_string(string)
 	print(string_f)

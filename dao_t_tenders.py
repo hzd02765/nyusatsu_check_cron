@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 
+# テーブル「t_tenders」クラス
 class DaoTTenders:
 	# 初期化
 	def __init__(self):
 		self.sql = ""
-		
-	# レコードの存在チェック
+
+	# SQL作成(レコードの存在チェック)
 	def make_sql_exist(self):
 		self.sql = "select id from t_tenders where anken_no = %s"
-		
+
+    # SQL作成(IDの最大値を取得)
 	def make_sql_select_max_id(self):
 		self.sql = u"select max(id) from t_tenders"
-		
-	# レコード新規作成
+
+    # SQL作成(レコード新規作成)
 	def make_sql_insert(self):
 		self.sql = u'''
 insert into t_tenders(
@@ -50,12 +52,12 @@ values(
 )
 
 '''
-	
-	# レコード更新
+
+	# SQL作成(レコード更新)
 	def make_sql_update(self):
 		self.sql = u'''
-update 
-	t_tenders 
+update
+	t_tenders
 set
 	nyusatsu_system = %s
 	, nyusatsu_type = %s
@@ -86,41 +88,49 @@ where
 
 '''
 
+    # SQLの取得
 	def get_sql(self):
 		return self.sql
-	
+
+    # SQLの実行
+    # @param: connection
+    # @param: cursol
 	def exec_sql(self, conn, cur):
 		cur.execute(self.sql)
 		conn.commit()
 		return cur
 
+    # SQLの実行
+    # @param: connection
+    # @param: cursol
+    # @param: params
 	def exec_sql_params(self, conn, cur, params):
-		# cur.mogrify(self.sql, params)
 		cur.execute(self.sql, params)
 		conn.commit()
 		return cur
 
+# テスト用
 if __name__ == '__main__':
 	# ロガー作成
 	import datetime
 	import logger
 	file_name = "access_log_" + datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
 	logger = logger.Logger(file_name)
-	
+
 	# pg_connectin 作成
 	import dao_pg_connection
 	pg_connection = dao_pg_connection.PgConnection()
 	pg_connection.set_pg_connection_open(logger)
 	connection = pg_connection.get_pg_connection()
 	cursor = connection.cursor()
-	
+
 	# テスト用案件番号
 	anken_no = "560700-H2503081217-21"
 	sql_params = []
-	
+
 	# インスタンス生成
 	dao_t_tenders = DaoTTenders()
-	
+
 	# レコードの存在チェック
 	dao_t_tenders.make_sql_exist()
 	logger.set_log(dao_t_tenders.get_sql())
@@ -129,30 +139,30 @@ if __name__ == '__main__':
 	cursor = dao_t_tenders.exec_sql_params(connection, cursor, sql_params)
 
 	logger.set_log(str(cursor.rowcount))
-	
+
 	if 0 == cursor.rowcount:
 		# レコード新規作成
-		
+
 		# Max_id取得用SQL 生成
 		dao_t_tenders.make_sql_select_max_id()
-		
+
 		# sqlをlogに書き出す
 		logger.set_log(dao_t_tenders.get_sql())
-		
+
 		# sql実行
 		cursor = dao_t_tenders.exec_sql(connection, cursor)
 		record =  cursor.fetchone()
 		max_id = record[0]
 		if max_id == None:
 			max_id = 0
-		
-		
+
+
 		dao_t_tenders.make_sql_insert()
 		logger.set_log(dao_t_tenders.get_sql())
-		
+
 		import dao_anken
 		anken = dao_anken.ClassAnken()
-		
+
 		anken.id = max_id + 1
 		anken.nyusatsu_system = "1"
 		anken.nyusatsu_type = "1"
@@ -177,9 +187,9 @@ if __name__ == '__main__':
 		anken.result_close_date = "2013-04-19 12:00:00"
 		anken.raku_name = "有限会社　大都環境サービス"
 		anken.price = "96,600"
-		
+
 		sql_params = []
-		sql_params.append(anken.id)	
+		sql_params.append(anken.id)
 		sql_params.append(anken.nyusatsu_system)
 		sql_params.append(anken.nyusatsu_type)
 		sql_params.append(anken.anken_no)
@@ -203,22 +213,22 @@ if __name__ == '__main__':
 		sql_params.append(anken.result_close_date)
 		sql_params.append(anken.raku_name)
 		sql_params.append(anken.price)
-		
+
 		dao_t_tenders.exec_sql_params(connection, cursor, sql_params)
-	
+
 	else:
 		record = cursor.fetchone()
 		id = record[0]
 		logger.set_log('id : ' + str(id))
-		
+
 		dao_t_tenders.make_sql_update()
 		logger.set_log(dao_t_tenders.get_sql())
-		
+
 		# レコード更新
-		
+
 		import dao_anken
 		anken = dao_anken.ClassAnken()
-		
+
 		anken.id = id
 		anken.nyusatsu_system = "1"
 		anken.nyusatsu_type = "1"
@@ -243,7 +253,7 @@ if __name__ == '__main__':
 		anken.result_close_date = "2013-04-19 12:00:00"
 		anken.raku_name = "有限会社　大都環境サービス"
 		anken.price = "96,600"
-		
+
 		sql_params = []
 		sql_params.append(anken.nyusatsu_system)
 		sql_params.append(anken.nyusatsu_type)
@@ -268,13 +278,13 @@ if __name__ == '__main__':
 		sql_params.append(anken.raku_name)
 		sql_params.append(anken.price)
 		sql_params.append(anken.anken_no)
-		
+
 		# SQL実行
 		dao_t_tenders.exec_sql_params(connection, cursor, sql_params)
-	
-	
+
+
 	# pg_connectin クローズ
 	pg_connection.set_pg_connection_close(cursor, logger)
-	
+
 	# ログ出力
 	logger.print_log()
