@@ -45,10 +45,12 @@ insert into t_tenders(
 	version_no,
 	delete_flag,
 	ins_date,
-	upd_date
+	upd_date,
+	registration_no,
+	site_name
 )
 values(
-	%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,0,0,now(),now()
+	%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,0,0,now(),now(),%s,%s
 )
 
 '''
@@ -83,6 +85,8 @@ set
 	, price = %s
 	, version_no = version_no + 1
 	, upd_date = now()
+	, registration_no = %s
+	, site_name = %s
 where
 	anken_no = %s
 

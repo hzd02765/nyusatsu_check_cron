@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+import codecs
 import sys
 import os
 import datetime
@@ -19,6 +21,9 @@ import dao_t_nyusatsu
 import dao_j_histories
 import dao_j_nyusatsu
 import dao_t_tenders
+
+sys.stdin = codecs.getreader("utf-8")(sys.stdin)
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
 
 # 案件情報取得のためのパラメータ
 class MainParam:
@@ -64,9 +69,18 @@ cursor = connection.cursor()
 # トランザクションテーブルのレコードを削除
 t_nyusatsu = dao_t_nyusatsu.DaoTNyusatsu()
 t_nyusatsu.make_sql_delete()
-# print t_nyusatsu.get_sql()
 logger.set_log('Delete t_nyusatsu')
 t_nyusatsu.exec_sql(connection, cursor)
+
+# 登録番号の取得
+sql = u'select max(registration_no) from t_tenders;'
+cursor.execute(sql)
+record =  cursor.fetchone()
+max_registration_no = record[0]
+if max_registration_no == None:
+	max_registration_no = 0
+registration_no = max_registration_no + 1
+# print(registration_no)
 
 # 案件情報取得のためのパラメータ（リスト）
 params = []
@@ -95,19 +109,12 @@ param.keishu_cd = u'2'
 param.public_flag = u'1'
 params.append(param)
 
-# for debug
-'''
-'''
-
 # 処理開始時間
 process_start = datetime.datetime.now()
 # 案件件数
 count_tenders = 0;
 
 for param in params:
-	# print param.keishu_cd
-	# print param.public_flag
-
 	# HTMLを取得
 	html_page = html_anken_page.HtmlAnkenPage()
 	logger.set_log('class HtmlAnkenPage')
@@ -122,7 +129,6 @@ for param in params:
 	for page in html_page.page_list:
 		logger.set_log(page)
 		html_list = html_anken_list.HtmlAnkenList(page)
-		# logger.set_log('class HtmlAnkenList')
 
 		html_list.get_anken_list()
 		for url in html_list.anken_url_list:
@@ -131,74 +137,49 @@ for param in params:
 			count_tenders = count_tenders + 1
 
 			html_disp = html_anken_disp.HtmlAnkenDisp()
-			# logger.set_log('class HtmlAnkenDisp')
 
 			html_disp.set_url(url)
 			# 案件情報を取得
 			html_disp.get_anken()
 
-			# print html_disp.anken.nyusatsu_system
-			# print html_disp.anken.nyusatsu_type
-			# print html_disp.anken.anken_url
-			# print html_disp.anken.keishu_cd
-			# print html_disp.anken.public_flag
-			# print html_disp.anken.anken_no
-			# print html_disp.anken.anken_name
-			# print html_disp.anken.keishu_name
-			# print html_disp.anken.company_area
-			# print html_disp.anken.anken_open_date
-			# print html_disp.anken.anken_close_date
-			# print html_disp.anken.tender_date
-			# print html_disp.anken.tender_place
-			# print html_disp.anken.limit_date
-			# print html_disp.anken.gyoumu_kbn_1
-			# print html_disp.anken.gyoumu_kbn_2
-			# print html_disp.anken.kasitu_name
-			# print html_disp.anken.tanto_name
-			# print html_disp.anken.notes
-			# print html_disp.anken.result_open_date
-			# print html_disp.anken.result_close_date
-			# print html_disp.anken.raku_name
-			# print html_disp.anken.price
 
 			# テーブル：t_nyusatsu　の更新
 
-			t_nyusatsu.make_sql_select_max_id()
-			cursor = t_nyusatsu.exec_sql(connection, cursor)
-			record =  cursor.fetchone()
-			max_id = record[0]
-			if max_id == None:
-				max_id = 0
-			# print(max_id)
+			# t_nyusatsu.make_sql_select_max_id()
+			# cursor = t_nyusatsu.exec_sql(connection, cursor)
+			# record =  cursor.fetchone()
+			# max_id = record[0]
+			# if max_id == None:
+				# max_id = 0
 
-			t_nyusatsu.make_sql_insert()
-			id = max_id + 1
-			sql_params = []
-			sql_params.append(id)
-			sql_params.append(html_disp.anken.nyusatsu_system)
-			sql_params.append(html_disp.anken.nyusatsu_type)
-			sql_params.append(html_disp.anken.anken_no)
-			sql_params.append(html_disp.anken.anken_url)
-			sql_params.append(html_disp.anken.anken_name)
-			sql_params.append(html_disp.anken.keishu_cd)
-			sql_params.append(html_disp.anken.keishu_name)
-			sql_params.append(html_disp.anken.public_flag)
-			sql_params.append(html_disp.anken.company_area)
-			sql_params.append(html_disp.anken.anken_open_date)
-			sql_params.append(html_disp.anken.anken_close_date)
-			sql_params.append(html_disp.anken.tender_date)
-			sql_params.append(html_disp.anken.tender_place)
-			sql_params.append(html_disp.anken.limit_date)
-			sql_params.append(html_disp.anken.gyoumu_kbn_1)
-			sql_params.append(html_disp.anken.gyoumu_kbn_2)
-			sql_params.append(html_disp.anken.kasitu_name)
-			sql_params.append(html_disp.anken.tanto_name)
-			sql_params.append(html_disp.anken.notes)
-			sql_params.append(html_disp.anken.result_open_date)
-			sql_params.append(html_disp.anken.result_close_date)
-			sql_params.append(html_disp.anken.raku_name)
-			sql_params.append(html_disp.anken.price)
-			t_nyusatsu.exec_sql_params(connection, cursor, sql_params)
+			# t_nyusatsu.make_sql_insert()
+			# id = max_id + 1
+			# sql_params = []
+			# sql_params.append(id)
+			# sql_params.append(html_disp.anken.nyusatsu_system)
+			# sql_params.append(html_disp.anken.nyusatsu_type)
+			# sql_params.append(html_disp.anken.anken_no)
+			# sql_params.append(html_disp.anken.anken_url)
+			# sql_params.append(html_disp.anken.anken_name)
+			# sql_params.append(html_disp.anken.keishu_cd)
+			# sql_params.append(html_disp.anken.keishu_name)
+			# sql_params.append(html_disp.anken.public_flag)
+			# sql_params.append(html_disp.anken.company_area)
+			# sql_params.append(html_disp.anken.anken_open_date)
+			# sql_params.append(html_disp.anken.anken_close_date)
+			# sql_params.append(html_disp.anken.tender_date)
+			# sql_params.append(html_disp.anken.tender_place)
+			# sql_params.append(html_disp.anken.limit_date)
+			# sql_params.append(html_disp.anken.gyoumu_kbn_1)
+			# sql_params.append(html_disp.anken.gyoumu_kbn_2)
+			# sql_params.append(html_disp.anken.kasitu_name)
+			# sql_params.append(html_disp.anken.tanto_name)
+			# sql_params.append(html_disp.anken.notes)
+			# sql_params.append(html_disp.anken.result_open_date)
+			# sql_params.append(html_disp.anken.result_close_date)
+			# sql_params.append(html_disp.anken.raku_name)
+			# sql_params.append(html_disp.anken.price)
+			# t_nyusatsu.exec_sql_params(connection, cursor, sql_params)
 
 			# テーブル：t_tenders　の更新
 			t_tenders = dao_t_tenders.DaoTTenders()
@@ -240,8 +221,11 @@ for param in params:
 				sql_params.append(html_disp.anken.result_close_date)
 				sql_params.append(html_disp.anken.raku_name)
 				sql_params.append(html_disp.anken.price)
+				sql_params.append(registration_no)
+				sql_params.append(config.SITE_NAME)
 
 				t_tenders.exec_sql_params(connection, cursor, sql_params)
+				# print "insert"
 			else:
 				t_tenders.make_sql_update()
 
@@ -268,9 +252,17 @@ for param in params:
 				sql_params.append(html_disp.anken.result_close_date)
 				sql_params.append(html_disp.anken.raku_name)
 				sql_params.append(html_disp.anken.price)
+				sql_params.append(registration_no)
+				sql_params.append(config.SITE_NAME)
 				sql_params.append(html_disp.anken.anken_no)
 
 				t_tenders.exec_sql_params(connection, cursor, sql_params)
+				# print util.clean_string(t_tenders.get_sql())
+				# print cursor.query.decode('utf-8')
+				# logger.set_log(cursor.query.decode('utf-8'))
+				# logger.set_log(util.clean_string(cursor.query.encode('utf-8')))
+				# print cursor.query
+				# print "update"
 
 			# テーブル：j_nyusatsu　の更新
 			j_nyusatsu = dao_j_nyusatsu.DaoJNyusatsu()
@@ -335,6 +327,10 @@ for param in params:
 			sql_params.append(html_disp.anken.raku_name)
 			# price,
 			sql_params.append(html_disp.anken.price)
+			# 登録番号
+			sql_params.append(registration_no)
+			# サイト名
+			sql_params.append(config.SITE_NAME)
 
 			j_nyusatsu.exec_sql_params(connection, cursor, sql_params)
 

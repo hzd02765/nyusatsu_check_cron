@@ -41,10 +41,12 @@ insert into j_nyusatsu(
 	version_no,
 	delete_flag,
 	ins_date,
-	upd_date
+	upd_date,
+	registration_no,
+	site_name
 )
 values(
-	%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, 0, now(), now()
+	%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, 0, now(), now(), %s, %s
 )
 
 '''

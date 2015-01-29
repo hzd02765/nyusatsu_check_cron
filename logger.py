@@ -20,7 +20,7 @@ class Logger:
 
 	def print_log(self):
 		file = open(self.file_path, "a")
-		file.write(self.log)
+		file.write(self.log.encode('utf-8', 'ignore'))
 		file.close
 
 # テスト用
