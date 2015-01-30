@@ -30,13 +30,37 @@ class MainParam:
 	keishu_cd = None
 	public_flag = None
 
-# ログファイル用のディレクトリの存在チェック
-exist_log_dir = os.path.isdir(config.LOG_FILE_DIR_PATH)
-if(not exist_log_dir):
-	os.mkdir(config.LOG_FILE_DIR_PATH)
-	os.chmod(config.LOG_FILE_DIR_PATH, 0777)
 
-log_file_path = config.LOG_FILE_DIR_PATH + "access_log_" + datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
+'''
+以下デバッグ用　そのうち消すこと
+
+print u'# スクリプトへの相対パス'
+print __file__
+print u'# スクリプトへの相対パス'
+print sys.argv[0]
+print u'# スクリプトのあるディレクトリへの相対パス'
+print os.path.dirname(__file__)
+
+print u'# スクリプト名'
+print os.path.basename(__file__) 
+print u'# スクリプトの絶対パス'
+print os.path.abspath(__file__)  
+print u'# スクリプトあるディレクトリの絶対パス'
+print os.path.abspath(os.path.dirname(__file__))  
+print u'# 実行時カレントディレクトリの絶対パス'
+print os.getcwd()                
+print
+'''
+
+# ログファイル用のディレクトリの存在チェック
+log_dir_path = os.path.abspath(os.path.dirname(__file__)) + u'/' + config.LOG_FILE_DIR_PATH + u'/'
+exist_log_dir = os.path.isdir(log_dir_path)
+# print exist_log_dir
+if(not exist_log_dir):
+	os.mkdir(log_dir_path)
+	os.chmod(log_dir_path, 0777)
+
+log_file_path = log_dir_path + "access_log_" + datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
 #ログファイルの存在チェック
 exist_log_file = os.path.exists(log_file_path)
 if(not exist_log_file):

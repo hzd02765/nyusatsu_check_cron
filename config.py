@@ -15,5 +15,5 @@ SITE_URL = u'http://wave.pref.wakayama.lg.jp/ekimu/'
 # サイト名
 SITE_NAME = "ekimu"
 
-# ログファイルディレクトリ
-LOG_FILE_DIR_PATH = "./log/"
+# ログファイルディレクトリ名
+LOG_FILE_DIR_PATH = "log"
