@@ -53,6 +53,7 @@ print
 '''
 
 # ログファイル用のディレクトリの存在チェック
+# os.path.abspath(os.path.dirname(__file__)) => スクリプトあるディレクトリの絶対パス'
 log_dir_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), config.LOG_FILE_DIR_PATH)
 print log_dir_path
 exist_log_dir = os.path.isdir(log_dir_path)
