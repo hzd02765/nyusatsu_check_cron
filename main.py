@@ -53,9 +53,10 @@ print
 '''
 
 # ログファイル用のディレクトリの存在チェック
-log_dir_path = os.path.abspath(os.path.dirname(__file__)) + u'/' + config.LOG_FILE_DIR_PATH + u'/'
+log_dir_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), config.LOG_FILE_DIR_PATH)
+print log_dir_path
 exist_log_dir = os.path.isdir(log_dir_path)
-# print exist_log_dir
+print exist_log_dir
 if(not exist_log_dir):
 	os.mkdir(log_dir_path)
 	os.chmod(log_dir_path, 0777)
