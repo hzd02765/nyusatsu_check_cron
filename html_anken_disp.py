@@ -92,8 +92,6 @@ class HtmlAnkenDisp:
 	def format_date(self, date_string):
 		if(date_string is None):
 			return date_string
-		# if(date_string is None):
-			# return date_string
 		date_string_f = ''
 
 		year_j = util.get_block(date_string, u'', u'年')

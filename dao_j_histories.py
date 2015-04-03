@@ -77,17 +77,10 @@ if __name__ == '__main__':
 
 	dao_j_histories = DaoJHistories()
 
-	# dao_j_histories.make_sql_select_max_id()
-	# cursor = dao_j_histories.exec_sql(connection, cursor)
-	# record =  cursor.fetchone()
-	# max_id = record[0]
-	# id = max_id + 1
-
 	dao_j_histories.make_sql_insert()
 	print(dao_j_histories.get_sql())
 
 	params = []
-	# params.append(id)
 	params.append(process_start)
 	params.append(process_end)
 	params.append(process_seconds)
@@ -96,5 +89,3 @@ if __name__ == '__main__':
 	dao_j_histories.exec_sql_params(connection, cursor, params)
 
 	pg_con.set_pg_connection_close(cursor)
-'''
-'''

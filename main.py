@@ -30,34 +30,10 @@ class MainParam:
 	keishu_cd = None
 	public_flag = None
 
-
-'''
-以下デバッグ用　そのうち消すこと
-
-print u'# スクリプトへの相対パス'
-print __file__
-print u'# スクリプトへの相対パス'
-print sys.argv[0]
-print u'# スクリプトのあるディレクトリへの相対パス'
-print os.path.dirname(__file__)
-
-print u'# スクリプト名'
-print os.path.basename(__file__) 
-print u'# スクリプトの絶対パス'
-print os.path.abspath(__file__)  
-print u'# スクリプトあるディレクトリの絶対パス'
-print os.path.abspath(os.path.dirname(__file__))  
-print u'# 実行時カレントディレクトリの絶対パス'
-print os.getcwd()                
-print
-'''
-
 # ログファイル用のディレクトリの存在チェック
 # os.path.abspath(os.path.dirname(__file__)) => スクリプトあるディレクトリの絶対パス'
 log_dir_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), config.LOG_FILE_DIR_PATH)
-# print log_dir_path
 exist_log_dir = os.path.isdir(log_dir_path)
-# print exist_log_dir
 if(not exist_log_dir):
 	os.mkdir(log_dir_path)
 	os.chmod(log_dir_path, 0777)
@@ -167,45 +143,6 @@ for param in params:
 			html_disp.set_url(url)
 			# 案件情報を取得
 			html_disp.get_anken()
-
-
-			# テーブル：t_nyusatsu　の更新
-
-			# t_nyusatsu.make_sql_select_max_id()
-			# cursor = t_nyusatsu.exec_sql(connection, cursor)
-			# record =  cursor.fetchone()
-			# max_id = record[0]
-			# if max_id == None:
-				# max_id = 0
-
-			# t_nyusatsu.make_sql_insert()
-			# id = max_id + 1
-			# sql_params = []
-			# sql_params.append(id)
-			# sql_params.append(html_disp.anken.nyusatsu_system)
-			# sql_params.append(html_disp.anken.nyusatsu_type)
-			# sql_params.append(html_disp.anken.anken_no)
-			# sql_params.append(html_disp.anken.anken_url)
-			# sql_params.append(html_disp.anken.anken_name)
-			# sql_params.append(html_disp.anken.keishu_cd)
-			# sql_params.append(html_disp.anken.keishu_name)
-			# sql_params.append(html_disp.anken.public_flag)
-			# sql_params.append(html_disp.anken.company_area)
-			# sql_params.append(html_disp.anken.anken_open_date)
-			# sql_params.append(html_disp.anken.anken_close_date)
-			# sql_params.append(html_disp.anken.tender_date)
-			# sql_params.append(html_disp.anken.tender_place)
-			# sql_params.append(html_disp.anken.limit_date)
-			# sql_params.append(html_disp.anken.gyoumu_kbn_1)
-			# sql_params.append(html_disp.anken.gyoumu_kbn_2)
-			# sql_params.append(html_disp.anken.kasitu_name)
-			# sql_params.append(html_disp.anken.tanto_name)
-			# sql_params.append(html_disp.anken.notes)
-			# sql_params.append(html_disp.anken.result_open_date)
-			# sql_params.append(html_disp.anken.result_close_date)
-			# sql_params.append(html_disp.anken.raku_name)
-			# sql_params.append(html_disp.anken.price)
-			# t_nyusatsu.exec_sql_params(connection, cursor, sql_params)
 
 			# テーブル：t_tenders　の更新
 			t_tenders = dao_t_tenders.DaoTTenders()

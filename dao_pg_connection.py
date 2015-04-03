@@ -42,14 +42,11 @@ class PgConnection:
 if __name__ == '__main__':
 	file_name = "access_log_" + datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
 	logger = logger.Logger(file_name)
-	# print(logger.file_path)
 
 	pg_connection = PgConnection()
-	# pg_connection.set_pg_connection_open(logger)
 	if pg_connection.set_pg_connection_open():
 		connectin = pg_connection.get_pg_connection()
 		cursor = connectin.cursor()
-		# pg_connection.set_pg_connection_close(cursor, logger)
 		pg_connection.set_pg_connection_close(cursor)
 
 	logger.print_log()
