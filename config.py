@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # DBホスト名
-# codereview
 DB_HOST = "localhost"
 # DB_HOST = "192.168.11.111"
 # DB名
