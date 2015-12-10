@@ -48,8 +48,8 @@ class HtmlAnkenPage:
 		elif(u'1' == self.public_flag):
 			self.public_flag_string = 'end'
 
-	def get_html(self):
-		url = config.SITE_URL + 'anken_' + self.keishu_string + '_' + self.public_flag_string + '.php'
+	def get_html(self, site_url):
+		url = site_url + 'anken_' + self.keishu_string + '_' + self.public_flag_string + '.php'
 
 		import urllib2
 		fp = urllib2.urlopen(url)
@@ -57,14 +57,14 @@ class HtmlAnkenPage:
 		self.html = unicode(html, 'euc_jp', errors='replace')
 		fp.close()
 
-	def get_page_list(self):
+	def get_page_list(self, site_url):
 		self.page_list=[]
 		page_number = 0
 		while True:
 			page_number = page_number + 1
 			sub = 'anken_' + self.keishu_string + '_' + self.public_flag_string + '.php?NextPage=' + str(page_number)
 			if 0 < self.html.find(sub):
-				page_url = config.SITE_URL + sub
+				page_url = site_url + sub
 				self.page_list.append(page_url)
 			else:
 				break

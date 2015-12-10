@@ -118,21 +118,22 @@ count_tenders = 0;
 
 for param in params:
 	# HTMLを取得
+	# html_anken_page.py より
 	html_page = html_anken_page.HtmlAnkenPage()
 	logger.set_log('class HtmlAnkenPage')
 
 	html_page.set_keishu_cd(param.keishu_cd)
 	html_page.set_public_flag(param.public_flag)
-	html_page.get_html()
+	
+	html_page.get_html(config.SITE_URL)
 	# HTMLから案件情報ページURLリストを取得
-	html_page.get_page_list()
-
+	html_page.get_page_list(config.SITE_URL)
 	# 案件情報ページURLリストから案件情報のリストを取得
 	for page in html_page.page_list:
 		logger.set_log(page)
 		html_list = html_anken_list.HtmlAnkenList(page)
 
-		html_list.get_anken_list()
+		html_list.get_anken_list(config.SITE_URL)
 		for url in html_list.anken_url_list:
 			logger.set_log(url)
 
@@ -140,7 +141,7 @@ for param in params:
 
 			html_disp = html_anken_disp.HtmlAnkenDisp()
 
-			html_disp.set_url(url)
+			html_disp.set_url(url, config.SITE_URL)
 			# 案件情報を取得
 			html_disp.get_anken()
 

@@ -27,10 +27,10 @@ class HtmlAnkenDisp:
 	# インスタンスに各種パラメータをセット
 	# @param : 対象ページのURL
 	# TODO => 名前 set_param とか set_info のほうがいいような
-	def set_url(self, url):
+	def set_url(self, url, site_url):
 		self.url = url
 
-		replaced = self.url.replace(config.SITE_URL, '')
+		replaced = self.url.replace(site_url, '')
 		splits = replaced.split('.')
 		splits = splits[0].split('_')
 

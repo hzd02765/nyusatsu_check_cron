@@ -40,8 +40,8 @@ class HtmlAnkenList:
 
 	# summary : 案件ページリストの取得
 	# @return : 案件ページリスト
-	def get_anken_list(self):
-		replaced = self.anken_page_url.replace(config.SITE_URL, '')
+	def get_anken_list(self, site_url):
+		replaced = self.anken_page_url.replace(site_url, '')
 		splits = replaced.split('.')
 		splits = splits[0].split('_')
 
@@ -65,7 +65,7 @@ class HtmlAnkenList:
 				end_index = html.find(sub, start_index)
 				if 0 < end_index:
 					anken_url = html[start_index:end_index + len(sub)]
-					anken_url = self.get_anken_url(anken_url);
+					anken_url = self.get_anken_url(anken_url, site_url);
 					self.anken_url_list.append(anken_url)
 					start = start_index + 1
 				else:
@@ -76,7 +76,7 @@ class HtmlAnkenList:
 	# HTMLからURLの取得
 	# @param : HTML
 	# @return : URL
-	def get_anken_url(self, html):
+	def get_anken_url(self, html, site_url):
 		anken_url = ''
 		start_sub = '<a href="'
 		start_index = html.find(start_sub)
@@ -85,7 +85,7 @@ class HtmlAnkenList:
 			end_index = html.find(end_sub, start_index)
 			if 0 < end_index:
 				anken_url = html[start_index + len(start_sub) : end_index]
-				anken_url = config.SITE_URL + anken_url
+				anken_url = site_url + anken_url
 
 		return anken_url
 
