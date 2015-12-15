@@ -56,6 +56,11 @@ logger.set_log(u'DB NAME : ' + config.DB_NAME)
 logger.set_log(u'SITE URL : ' + config.SITE_URL)
 logger.set_log(u'LOG DIR : ' + config.LOG_FILE_DIR_PATH)
 
+# 各テーブルとその詳細
+# ・・・
+# TODO
+# ・・・
+
 # DBコネクション開始
 pg_con = dao_pg_connection.PgConnection()
 result = pg_con.set_pg_connection_open();
@@ -152,6 +157,8 @@ for param in params:
 			sql_params.append(html_disp.anken.anken_no)
 			cursor = t_tenders.exec_sql_params(connection, cursor, sql_params)
 			if 0 == cursor.rowcount:
+				# INSERT t_tenders
+				
 				t_tenders.make_sql_select_max_id()
 				cursor = t_tenders.exec_sql(connection, cursor)
 				record =  cursor.fetchone()
@@ -191,6 +198,8 @@ for param in params:
 				t_tenders.exec_sql_params(connection, cursor, sql_params)
 				# print "insert"
 			else:
+				# UPDATE t_tenders
+				
 				t_tenders.make_sql_update()
 
 				sql_params = []
@@ -229,6 +238,9 @@ for param in params:
 				# print "update"
 
 			# テーブル：j_nyusatsu　の更新
+			# テーブルがでかくなりすぎた
+			# この処理はいらないかも
+			
 			j_nyusatsu = dao_j_nyusatsu.DaoJNyusatsu()
 			j_nyusatsu.make_sql_select_max_id()
 			cursor = j_nyusatsu.exec_sql(connection, cursor)
