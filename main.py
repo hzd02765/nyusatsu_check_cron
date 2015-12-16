@@ -365,9 +365,11 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 ekimu_site_url = u'http://wave.pref.wakayama.lg.jp/ekimu/'
 # ekimu_site_name = config.SITE_NAME
 ekimu_site_name = u'ekimu'
-
 start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, cursor)
 
+ekimu_site_url = u'http://wave.pref.wakayama.lg.jp/ekimu2/'
+ekimu_site_name = u'ekimu2'
+start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, cursor)
 
 # DBコネクション終了
 pg_con.set_pg_connection_close(cursor)
