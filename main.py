@@ -112,6 +112,11 @@ cursor = connection.cursor()
 # connection
 # cursor
 def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, cursor):
+	# 処理開始時間
+	process_start = datetime.datetime.now()
+	# 案件件数
+	count_tenders = 0;
+
 	# 登録番号の取得
 	sql = u'select max(registration_no) from t_tenders;'
 	cursor.execute(sql)
@@ -340,10 +345,21 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 				# 
 				# j_nyusatsu.exec_sql_params(connection, cursor, sql_params)
 
-# 処理開始時間
-process_start = datetime.datetime.now()
-# 案件件数
-count_tenders = 0;
+	# 処理終了時間
+	process_end = datetime.datetime.now()
+	# 処理時間（秒）
+	process_seconds = (process_end - process_start).seconds
+
+	# テーブル：j_histories　の更新
+	j_histories = dao_j_histories.DaoJHistories()
+	j_histories.make_sql_insert()
+	sql_params = []
+	sql_params.append(process_start)
+	sql_params.append(process_end)
+	sql_params.append(process_seconds)
+	sql_params.append(count_tenders)
+	j_histories.exec_sql_params(connection, cursor, sql_params)
+
 	
 # ekimu_site_url = config.SITE_URL
 ekimu_site_url = u'http://wave.pref.wakayama.lg.jp/ekimu/'
@@ -351,22 +367,6 @@ ekimu_site_url = u'http://wave.pref.wakayama.lg.jp/ekimu/'
 ekimu_site_name = u'ekimu'
 
 start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, cursor)
-
-
-# 処理終了時間
-process_end = datetime.datetime.now()
-# 処理時間（秒）
-process_seconds = (process_end - process_start).seconds
-
-# テーブル：j_histories　の更新
-j_histories = dao_j_histories.DaoJHistories()
-j_histories.make_sql_insert()
-sql_params = []
-sql_params.append(process_start)
-sql_params.append(process_end)
-sql_params.append(process_seconds)
-sql_params.append(count_tenders)
-j_histories.exec_sql_params(connection, cursor, sql_params)
 
 
 # DBコネクション終了
