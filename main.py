@@ -56,10 +56,31 @@ logger.set_log(u'DB NAME : ' + config.DB_NAME)
 logger.set_log(u'SITE URL : ' + config.SITE_URL)
 logger.set_log(u'LOG DIR : ' + config.LOG_FILE_DIR_PATH)
 
-# 各テーブルとその詳細
-# ・・・
-# TODO
-# ・・・
+# ### 各テーブルとその詳細
+# 
+# j_histories
+# 更新履歴
+#
+# j_nyusatsu
+# 役務入札案件のジャーナル
+# cronが走るたびに表示されている案件のレコードが新規に追加される
+# 登録番号（1回の登録処理で登録された案件で共通）
+# 登録サイト名(ekimu or ekimu2)
+# ※行が多すぎる
+# ※このテーブルを使うのはやめる
+# ※ログはファイルに書き出す
+# ※このテーブルはそのうち消す予定
+#
+# t_nyusatsu
+# 現在HPで表示されている、役務入札案件
+# ※現在使われていない
+# ※・・・消してもいいかも
+#
+# t_tenders
+# 現在HPで表示されていないものも含めた、すべての役務入札案件
+# cronが走るたびにレコードは最新の状態にアップデートされる
+# 登録番号（1回の登録処理で登録された案件で共通）
+# 登録サイト名(ekimu or ekimu2)
 
 # DBコネクション開始
 pg_con = dao_pg_connection.PgConnection()
