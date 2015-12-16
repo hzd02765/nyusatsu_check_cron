@@ -149,10 +149,7 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 	param.public_flag = u'1'
 	params.append(param)
 
-	# 処理開始時間
-	process_start = datetime.datetime.now()
-	# 案件件数
-	count_tenders = 0;
+
 
 	for param in params:
 		# HTMLを取得
@@ -343,6 +340,11 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 				# 
 				# j_nyusatsu.exec_sql_params(connection, cursor, sql_params)
 
+# 処理開始時間
+process_start = datetime.datetime.now()
+# 案件件数
+count_tenders = 0;
+	
 # ekimu_site_url = config.SITE_URL
 ekimu_site_url = u'http://wave.pref.wakayama.lg.jp/ekimu/'
 # ekimu_site_name = config.SITE_NAME
