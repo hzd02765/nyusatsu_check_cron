@@ -91,14 +91,29 @@ if not result :
 	sys.exit()
 
 logger.set_log('DB Connection Success')
+# connectionの取得
 connection = pg_con.get_pg_connection()
+# cursorの取得
 cursor = connection.cursor()
 
 # トランザクションテーブルのレコードを削除
-t_nyusatsu = dao_t_nyusatsu.DaoTNyusatsu()
-t_nyusatsu.make_sql_delete()
-logger.set_log('Delete t_nyusatsu')
-t_nyusatsu.exec_sql(connection, cursor)
+# テーブルt_nyusatsuは使われていないので、この処理はコメントアウト
+# 
+# t_nyusatsu = dao_t_nyusatsu.DaoTNyusatsu()
+# t_nyusatsu.make_sql_delete()
+# logger.set_log('Delete t_nyusatsu')
+# t_nyusatsu.exec_sql(connection, cursor)
+
+ekimu_site_url = config.SITE_URL
+ekimu_site_name = config.SITE_NAME
+
+# TODO 　ここから以下を関数化する
+# 引数・・・・
+# ekimu_site_url
+# ekimu_site_name
+# logger
+# connection
+# cursor
 
 # 登録番号の取得
 sql = u'select max(registration_no) from t_tenders;'
@@ -151,15 +166,15 @@ for param in params:
 	html_page.set_keishu_cd(param.keishu_cd)
 	html_page.set_public_flag(param.public_flag)
 	
-	html_page.get_html(config.SITE_URL)
+	html_page.get_html(ekimu_site_url)
 	# HTMLから案件情報ページURLリストを取得
-	html_page.get_page_list(config.SITE_URL)
+	html_page.get_page_list(ekimu_site_url)
 	# 案件情報ページURLリストから案件情報のリストを取得
 	for page in html_page.page_list:
 		logger.set_log(page)
 		html_list = html_anken_list.HtmlAnkenList(page)
 
-		html_list.get_anken_list(config.SITE_URL)
+		html_list.get_anken_list(ekimu_site_url)
 		for url in html_list.anken_url_list:
 			logger.set_log(url)
 
@@ -167,7 +182,7 @@ for param in params:
 
 			html_disp = html_anken_disp.HtmlAnkenDisp()
 
-			html_disp.set_url(url, config.SITE_URL)
+			html_disp.set_url(url, ekimu_site_url)
 			# 案件情報を取得
 			html_disp.get_anken()
 
@@ -214,7 +229,7 @@ for param in params:
 				sql_params.append(html_disp.anken.raku_name)
 				sql_params.append(html_disp.anken.price)
 				sql_params.append(registration_no)
-				sql_params.append(config.SITE_NAME)
+				sql_params.append(ekimu_site_name)
 
 				t_tenders.exec_sql_params(connection, cursor, sql_params)
 				# print "insert"
@@ -247,7 +262,7 @@ for param in params:
 				sql_params.append(html_disp.anken.raku_name)
 				sql_params.append(html_disp.anken.price)
 				sql_params.append(registration_no)
-				sql_params.append(config.SITE_NAME)
+				sql_params.append(ekimu_site_name)
 				sql_params.append(html_disp.anken.anken_no)
 
 				t_tenders.exec_sql_params(connection, cursor, sql_params)
