@@ -104,8 +104,10 @@ cursor = connection.cursor()
 # logger.set_log('Delete t_nyusatsu')
 # t_nyusatsu.exec_sql(connection, cursor)
 
-ekimu_site_url = config.SITE_URL
-ekimu_site_name = config.SITE_NAME
+# ekimu_site_url = config.SITE_URL
+ekimu_site_url = u'http://wave.pref.wakayama.lg.jp/ekimu/'
+# ekimu_site_name = config.SITE_NAME
+ekimu_site_name = u'ekimu'
 
 # TODO 　ここから以下を関数化する
 # 引数・・・・

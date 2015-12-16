@@ -13,7 +13,7 @@ DB_PASSWORD = "nyusatsu_check"
 # 情報取得サイトURL
 SITE_URL = u'http://wave.pref.wakayama.lg.jp/ekimu2/'
 # サイト名
-SITE_NAME = "ekimu2"
+SITE_NAME = u'ekimu2'
 
 # ログファイルディレクトリ名
 LOG_FILE_DIR_PATH = "log/"
