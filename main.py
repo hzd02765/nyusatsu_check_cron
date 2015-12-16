@@ -241,74 +241,74 @@ for param in params:
 			# テーブルがでかくなりすぎた
 			# この処理はいらないかも
 			
-			j_nyusatsu = dao_j_nyusatsu.DaoJNyusatsu()
-			j_nyusatsu.make_sql_select_max_id()
-			cursor = j_nyusatsu.exec_sql(connection, cursor)
-			record =  cursor.fetchone()
-			max_id = record[0]
-			if max_id == None:
-				max_id = 0
-			# print max_id
-
-			j_nyusatsu.make_sql_insert()
-
-			sql_params = []
-			id = max_id + 1
-
-			# id,
-			sql_params.append(id)
-			# nyusatsu_system,
-			sql_params.append(html_disp.anken.nyusatsu_system)
-			# nyusatsu_type,
-			sql_params.append(html_disp.anken.nyusatsu_type)
-			# anken_no,
-			sql_params.append(html_disp.anken.anken_no)
-			# anken_url,
-			sql_params.append(html_disp.anken.anken_url)
-			# anken_name,
-			sql_params.append(html_disp.anken.anken_name)
-			# keishu_cd,
-			sql_params.append(html_disp.anken.keishu_cd)
-			# keishu_name,
-			sql_params.append(html_disp.anken.keishu_name)
-			# public_flag,
-			sql_params.append(html_disp.anken.public_flag)
-			# company_area,
-			sql_params.append(html_disp.anken.company_area)
-			# anken_open_date,
-			sql_params.append(html_disp.anken.anken_open_date)
-			# anken_close_date,
-			sql_params.append(html_disp.anken.anken_close_date)
-			# tender_date,
-			sql_params.append(html_disp.anken.tender_date)
-			# tender_place,
-			sql_params.append(html_disp.anken.tender_place)
-			# limit_date,
-			sql_params.append(html_disp.anken.limit_date)
-			# gyoumu_kbn_1,
-			sql_params.append(html_disp.anken.gyoumu_kbn_1)
-			# gyoumu_kbn_2,
-			sql_params.append(html_disp.anken.gyoumu_kbn_2)
-			# kasitu_name,
-			sql_params.append(html_disp.anken.kasitu_name)
-			# tanto_name,
-			sql_params.append(html_disp.anken.tanto_name)
-			# notes,
-			sql_params.append(html_disp.anken.notes)
-			# result_open_date,
-			sql_params.append(html_disp.anken.result_open_date)
-			# result_close_date,
-			sql_params.append(html_disp.anken.result_close_date)
-			# raku_name,
-			sql_params.append(html_disp.anken.raku_name)
-			# price,
-			sql_params.append(html_disp.anken.price)
-			# 登録番号
-			sql_params.append(registration_no)
-			# サイト名
-			sql_params.append(config.SITE_NAME)
-
-			j_nyusatsu.exec_sql_params(connection, cursor, sql_params)
+			# j_nyusatsu = dao_j_nyusatsu.DaoJNyusatsu()
+			# j_nyusatsu.make_sql_select_max_id()
+			# cursor = j_nyusatsu.exec_sql(connection, cursor)
+			# record =  cursor.fetchone()
+			# max_id = record[0]
+			# if max_id == None:
+			# 	max_id = 0
+			# # print max_id
+            # 
+			# j_nyusatsu.make_sql_insert()
+            # 
+			# sql_params = []
+			# id = max_id + 1
+            # 
+			# # id,
+			# sql_params.append(id)
+			# # nyusatsu_system,
+			# sql_params.append(html_disp.anken.nyusatsu_system)
+			# # nyusatsu_type,
+			# sql_params.append(html_disp.anken.nyusatsu_type)
+			# # anken_no,
+			# sql_params.append(html_disp.anken.anken_no)
+			# # anken_url,
+			# sql_params.append(html_disp.anken.anken_url)
+			# # anken_name,
+			# sql_params.append(html_disp.anken.anken_name)
+			# # keishu_cd,
+			# sql_params.append(html_disp.anken.keishu_cd)
+			# # keishu_name,
+			# sql_params.append(html_disp.anken.keishu_name)
+			# # public_flag,
+			# sql_params.append(html_disp.anken.public_flag)
+			# # company_area,
+			# sql_params.append(html_disp.anken.company_area)
+			# # anken_open_date,
+			# sql_params.append(html_disp.anken.anken_open_date)
+			# # anken_close_date,
+			# sql_params.append(html_disp.anken.anken_close_date)
+			# # tender_date,
+			# sql_params.append(html_disp.anken.tender_date)
+			# # tender_place,
+			# sql_params.append(html_disp.anken.tender_place)
+			# # limit_date,
+			# sql_params.append(html_disp.anken.limit_date)
+			# # gyoumu_kbn_1,
+			# sql_params.append(html_disp.anken.gyoumu_kbn_1)
+			# # gyoumu_kbn_2,
+			# sql_params.append(html_disp.anken.gyoumu_kbn_2)
+			# # kasitu_name,
+			# sql_params.append(html_disp.anken.kasitu_name)
+			# # tanto_name,
+			# sql_params.append(html_disp.anken.tanto_name)
+			# # notes,
+			# sql_params.append(html_disp.anken.notes)
+			# # result_open_date,
+			# sql_params.append(html_disp.anken.result_open_date)
+			# # result_close_date,
+			# sql_params.append(html_disp.anken.result_close_date)
+			# # raku_name,
+			# sql_params.append(html_disp.anken.raku_name)
+			# # price,
+			# sql_params.append(html_disp.anken.price)
+			# # 登録番号
+			# sql_params.append(registration_no)
+			# # サイト名
+			# sql_params.append(config.SITE_NAME)
+            # 
+			# j_nyusatsu.exec_sql_params(connection, cursor, sql_params)
 
 
 # 処理終了時間
