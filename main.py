@@ -104,13 +104,6 @@ cursor = connection.cursor()
 # logger.set_log('Delete t_nyusatsu')
 # t_nyusatsu.exec_sql(connection, cursor)
 
-# ekimu_site_url = config.SITE_URL
-ekimu_site_url = u'http://wave.pref.wakayama.lg.jp/ekimu/'
-# ekimu_site_name = config.SITE_NAME
-ekimu_site_name = u'ekimu'
-
-start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, cursor)
-
 # TODO 　ここから以下を関数化する
 # 引数・・・・
 # ekimu_site_url
@@ -349,6 +342,13 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 				# sql_params.append(config.SITE_NAME)
 				# 
 				# j_nyusatsu.exec_sql_params(connection, cursor, sql_params)
+
+# ekimu_site_url = config.SITE_URL
+ekimu_site_url = u'http://wave.pref.wakayama.lg.jp/ekimu/'
+# ekimu_site_name = config.SITE_NAME
+ekimu_site_name = u'ekimu'
+
+start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, cursor)
 
 
 # 処理終了時間
