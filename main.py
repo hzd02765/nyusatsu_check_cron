@@ -164,7 +164,6 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 
 		html_page.set_keishu_cd(param.keishu_cd)
 		html_page.set_public_flag(param.public_flag)
-
 		html_page.get_html(ekimu_site_url)
 		# HTMLから案件情報ページURLリストを取得
 		html_page.get_page_list(ekimu_site_url)
@@ -193,7 +192,6 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 				cursor = t_tenders.exec_sql_params(connection, cursor, sql_params)
 				if 0 == cursor.rowcount:
 					# INSERT t_tenders
-
 					t_tenders.make_sql_select_max_id()
 					cursor = t_tenders.exec_sql(connection, cursor)
 					record =  cursor.fetchone()
@@ -237,7 +235,6 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 					# print "insert"
 				else:
 					# UPDATE t_tenders
-
 					t_tenders.make_sql_update()
 
 					sql_params = []
@@ -281,7 +278,6 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 				# テーブル：j_nyusatsu　の更新
 				# テーブルがでかくなりすぎた
 				# この処理はいらないかも
-
 				# j_nyusatsu = dao_j_nyusatsu.DaoJNyusatsu()
 				# j_nyusatsu.make_sql_select_max_id()
 				# cursor = j_nyusatsu.exec_sql(connection, cursor)
@@ -290,12 +286,12 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 				# if max_id == None:
 				# 	max_id = 0
 				# # print max_id
-				#
+				# 
 				# j_nyusatsu.make_sql_insert()
-				#
+				# 
 				# sql_params = []
 				# id = max_id + 1
-				#
+				# 
 				# # id,
 				# sql_params.append(id)
 				# # nyusatsu_system,
@@ -365,7 +361,6 @@ def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, curso
 	sql_params.append(process_seconds)
 	sql_params.append(count_tenders)
 	j_histories.exec_sql_params(connection, cursor, sql_params)
-
 
 ekimu_site_url = u'http://wave.pref.wakayama.lg.jp/ekimu/'
 ekimu_site_name = u'ekimu'
