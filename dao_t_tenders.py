@@ -18,39 +18,73 @@ class DaoTTenders:
 	def make_sql_insert(self):
 		self.sql = u'''
 insert into t_tenders(
-	id,
-	nyusatsu_system,
-	nyusatsu_type,
-	anken_no,
-	anken_url,
-	anken_name,
-	keishu_cd,
-	keishu_name,
-	public_flag,
-	company_area,
-	anken_open_date,
-	anken_close_date,
-	tender_date,
-	tender_place,
-	limit_date,
-	gyoumu_kbn_1,
-	gyoumu_kbn_2,
-	kasitu_name,
-	tanto_name,
-	notes,
-	result_open_date,
-	result_close_date,
-	raku_name,
-	price,
-	version_no,
-	delete_flag,
-	ins_date,
-	upd_date,
-	registration_no,
-	site_name
-)
-values(
-	%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,0,0,now(),now(),%s,%s
+	id
+	, nyusatsu_system
+	, nyusatsu_type
+	, anken_no
+	, anken_url
+	, anken_name
+	, keishu_cd
+	, keishu_name
+	, public_flag
+	, company_area
+	, anken_open_date
+	, anken_close_date
+	, tender_date
+	, tender_place
+	, limit_date
+	, gyoumu_kbn_1
+	, gyoumu_kbn_2
+	, kasitu_name
+	, tanto_name
+	, notes
+	, result_open_date
+	, result_close_date
+	, raku_name
+	, price
+	, version_no
+	, delete_flag
+	, ins_date
+	, upd_date
+	, registration_no
+	, site_name
+	, attached_file_1
+	, attached_file_2
+	, attached_file_3
+)values(
+	%s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
+	, 0
+	, 0
+	, now()
+	, now()
+	, %s
+	, %s
+	, %s
+	, %s
+	, %s
 )
 
 '''
@@ -87,6 +121,9 @@ set
 	, upd_date = now()
 	, registration_no = %s
 	, site_name = %s
+	, attached_file_1 = %s
+	, attached_file_2 = %s
+	, attached_file_3 = %s
 where
 	anken_no = %s
 

@@ -23,12 +23,15 @@ class HtmlAnkenDisp:
 		self.html = None
 		# 案件情報
 		self.anken = dao_anken.ClassAnken()
+		# サイトURL
+		self.site_url = None
 
 	# インスタンスに各種パラメータをセット
 	# @param : 対象ページのURL
 	# TODO => 名前 set_param とか set_info のほうがいいような
 	def set_url(self, url, site_url):
 		self.url = url
+		self.site_url = site_url
 
 		replaced = self.url.replace(site_url, '')
 		splits = replaced.split('.')
@@ -57,6 +60,8 @@ class HtmlAnkenDisp:
 
 		html = unicode(html, 'euc_jp', 'ignore')
 		self.html = util.clean_string(html)
+		
+		# print(self.html)
 
 		self.anken = dao_anken.ClassAnken()
 
@@ -84,6 +89,9 @@ class HtmlAnkenDisp:
 		self.anken.result_close_date = self.get_result_close_date()
 		self.anken.raku_name = self.get_raku_name()
 		self.anken.price = self.get_price()
+		self.anken.attached_file_1 = self.get_attached_file_1()
+		self.anken.attached_file_2 = self.get_attached_file_2()
+		self.anken.attached_file_3 = self.get_attached_file_3()
 
 
 	# 和暦日付を西暦日付に変換
@@ -257,7 +265,42 @@ class HtmlAnkenDisp:
 
 		return price
 
-
+	# @return : 添付ファイル１
+	def get_attached_file_1(self):
+		start = u'<tr> <td>添付ファイル１</td><td> <a href="'
+		stop = u'">'
+		attached_file_1 = util.get_block(self.html, start, stop)
+		# print(attached_file_1)
+		if attached_file_1 is not None:		
+			attached_file_1 = self.site_url + attached_file_1
+		else:
+			attached_file_1 = ''
+		# print(attached_file_1)
+		return attached_file_1;
+	# @return : 添付ファイル２
+	def get_attached_file_2(self):
+		start = u'<tr> <td>添付ファイル２</td><td> <a href="'
+		stop = u'">'
+		attached_file_2 = util.get_block(self.html, start, stop)
+		# print(attached_file_2)
+		if attached_file_2 is not None:
+			attached_file_2 = self.site_url + attached_file_2
+		else:
+			attached_file_2 = ''
+		# print(attached_file_2)
+		return attached_file_2;
+	# @return : 添付ファイル３
+	def get_attached_file_3(self):
+		start = u'<tr> <td>添付ファイル３</td><td> <a href="'
+		stop = u'">'
+		attached_file_3 = util.get_block(self.html, start, stop)
+		# print(attached_file_3)
+		if attached_file_3 is not None:
+			attached_file_3 = self.site_url + attached_file_3
+		else:
+			attached_file_3 = ''
+		# print(attached_file_3)
+		return attached_file_3;
 # 以下テスト用
 if __name__ == '__main__':
 	print(0)
