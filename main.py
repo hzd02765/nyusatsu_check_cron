@@ -5,6 +5,8 @@ import sys
 import os
 import datetime
 
+import urllib2
+
 # common
 import config
 import util
@@ -112,6 +114,16 @@ cursor = connection.cursor()
 # connection
 # cursor
 def start_ekimu_check(ekimu_site_url, ekimu_site_name, logger, connection, cursor):
+	# URLの存在チェック
+	# site_url = u'http://wave.pref.wakayama.lg.jp/ekimu2/'
+	try:
+		f = urllib2.urlopen(ekimu_site_url)
+		logger.set_log(ekimu_site_url)
+		f.close()
+	except urllib2.HTTPError:
+		logger.set_log("NotFound:" + ekimu_site_url)
+		return False
+
 	# 処理開始時間
 	process_start = datetime.datetime.now()
 	# 案件件数

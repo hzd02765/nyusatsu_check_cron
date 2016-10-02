@@ -60,7 +60,7 @@ class HtmlAnkenDisp:
 
 		html = unicode(html, 'euc_jp', 'ignore')
 		self.html = util.clean_string(html)
-		
+
 		# print(self.html)
 
 		self.anken = dao_anken.ClassAnken()
@@ -219,7 +219,8 @@ class HtmlAnkenDisp:
 
 	# @return : 担当者名・電話番号
 	def get_tanto_name(self):
-		start = u'<tr> <td>担当者名・電話番号</td><td>'
+		# start = u'<tr> <td>担当者名・電話番号</td><td>'
+		start = u'<tr> <td>問い合わせ先<br>(担当者名・電話番号)</td><td>'
 		stop = '</td> </tr>'
 		tanto_name = util.get_block(self.html, start, stop)
 		return tanto_name
@@ -271,7 +272,7 @@ class HtmlAnkenDisp:
 		stop = u'">'
 		attached_file_1 = util.get_block(self.html, start, stop)
 		# print(attached_file_1)
-		if attached_file_1 is not None:		
+		if attached_file_1 is not None:
 			attached_file_1 = self.site_url + attached_file_1
 		else:
 			attached_file_1 = ''
