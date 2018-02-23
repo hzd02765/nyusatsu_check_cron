@@ -2,11 +2,12 @@
 
 # 和暦を西暦に変換
 def convert_J2AD(str_year_j):
-	year = 0
-	if(0 >= str_year_j.find(u'平成')):
-		year_j = str_year_j.replace(u'平成','')
-		year = int(year_j) + 1988
-	return str(year)
+    if (str_year_j.find(u'平成') == -1):
+        return str_year_j
+
+    year_j = str_year_j.replace(u'平成','')
+    year = int(year_j) + 1988
+    return str(year)
 
 # 改行、タブ、スペースを削除し、1行の文字列を返す
 def clean_string(string):
